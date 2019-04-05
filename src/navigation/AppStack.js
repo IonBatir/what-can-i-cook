@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation";
 import { Dashboard } from "../screens";
-import { DASHBOARD, DASHBOARD_SCREEN } from "../consts";
+import { DASHBOARD_SCREEN } from "../consts";
 
 export default createStackNavigator(
   {
@@ -12,7 +12,7 @@ export default createStackNavigator(
     }
   },
   {
-    initialRouteName: DASHBOARD,
+    initialRouteName: DASHBOARD_SCREEN,
     headerMode: "screen"
   }
 );
