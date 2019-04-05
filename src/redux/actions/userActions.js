@@ -1,4 +1,4 @@
-import { auth, User } from "firebase";
+import { auth } from "firebase";
 import {
   LOGIN_USER_START,
   LOGIN_USER_SUCCESS,
@@ -35,6 +35,7 @@ export const login = (
       successCallback();
     })
     .catch(error => {
+      console.log(error);
       dispatch({ type: LOGIN_USER_ERROR, payload: { error } });
       errorCallback();
     });
@@ -60,7 +61,7 @@ export const resetPassword = (
     });
 };
 
-export const register = (
+export const registerUser = (
   { email, password },
   successCallback,
   errorCallback
