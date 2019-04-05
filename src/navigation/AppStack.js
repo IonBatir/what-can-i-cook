@@ -1,10 +1,10 @@
 import { createStackNavigator } from "react-navigation";
 import { Dashboard } from "../screens";
-import { DASHBOARD } from "../consts";
+import { DASHBOARD, DASHBOARD_SCREEN } from "../consts";
 
 export default createStackNavigator(
   {
-    [DASHBOARD]: {
+    [DASHBOARD_SCREEN]: {
       screen: Dashboard,
       navigationOptions: {
         title: "Dashboard"
