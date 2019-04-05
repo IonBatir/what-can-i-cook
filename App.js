@@ -1,21 +1,51 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { YellowBox } from "react-native";
+import { Root } from "native-base";
+import { Font, AppLoading } from "expo";
+import { createAppContainer } from "react-navigation";
+import * as firebase from "firebase";
+import Navigation from "./src/navigation";
 
-export default class App extends React.Component {
+const AppContainer = createAppContainer(Navigation);
+
+export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+  async componentWillMount() {
+    await Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ loading: false });
+    YellowBox.ignoreWarnings(["Setting a timer for a long period of time"]);
+  }
+
+  componentDidMount() {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDYuCjxk55rVNJufSXeLl26tmgTybho1W8",
+      authDomain: "what-can-i-cook-bcb81.firebaseapp.com",
+      databaseURL: "https://what-can-i-cook-bcb81.firebaseio.com",
+      projectId: "what-can-i-cook-bcb81",
+      storageBucket: "what-can-i-cook-bcb81.appspot.com",
+      messagingSenderId: "343997247660"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  }
   render() {
+    if (this.state.loading) {
+      return (
+        <Root>
+          <AppLoading />
+        </Root>
+      );
+    }
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Root>
+        <AppContainer />
+      </Root>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
