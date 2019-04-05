@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Container,
   Header,
@@ -13,8 +13,8 @@ import {
   H1
 } from "native-base";
 import { Constants } from "expo";
-import { LOGIN_SCREEN, DASHBOARD, APP_NAME } from "../consts";
-import { View, Image, ScrollView } from "react-native";
+import { LOGIN_SCREEN, HEADER } from "../consts";
+import { ScrollView } from "react-native";
 
 export default ({ navigation }) => (
   <Container style={{ paddingTop: Constants.statusBarHeight }}>
@@ -26,7 +26,7 @@ export default ({ navigation }) => (
           marginBottom: 50
         }}
       >
-        Let's cook faster!)
+        Don't worry, Honey!
       </H1>
 
       <Form>
@@ -34,26 +34,23 @@ export default ({ navigation }) => (
           <Label>Email</Label>
           <Input />
         </Item>
-        <Item floatingLabel underline>
-          <Label>Password</Label>
-          <Input secureTextEntry={true} />
-        </Item>
       </Form>
 
       <Button
         block
-        onPress={() => navigation.navigate(LOGIN_SCREEN)}
+        onPress={() => navigation.navigate(DASHBOARD)}
         style={{
           backgroundColor: "#5181b8",
           margin: 10,
           marginTop: 20
         }}
       >
-        <Text>Register</Text>
+        <Text>Reset</Text>
       </Button>
+
       <Text
         style={{ textAlign: "center", marginTop: 10 }}
-      >{`Have an account?`}</Text>
+      >{`Remembered?`}</Text>
       <Button
         style={{
           flex: 1,
@@ -64,7 +61,7 @@ export default ({ navigation }) => (
         onPress={() => navigation.navigate(LOGIN_SCREEN)}
         transparent
       >
-        <Text style={{ textAlign: "center" }}>Back to login</Text>
+        <Text style={{ textAlign: "center" }}>Go Back!</Text>
       </Button>
     </ScrollView>
   </Container>
