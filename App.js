@@ -3,10 +3,14 @@ import { YellowBox } from "react-native";
 import { Root } from "native-base";
 import { Font, AppLoading } from "expo";
 import { createAppContainer } from "react-navigation";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import * as firebase from "firebase";
 import Navigation from "./src/navigation";
+import rootReducer from "./src/redux/reducers";
 
 const AppContainer = createAppContainer(Navigation);
+const AppStore = createStore(rootReducer);
 
 export default class extends Component {
   constructor(props) {
@@ -43,9 +47,9 @@ export default class extends Component {
       );
     }
     return (
-      <Root>
+      <Provider store={AppStore}>
         <AppContainer />
-      </Root>
+      </Provider>
     );
   }
 }
