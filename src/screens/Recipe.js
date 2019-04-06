@@ -138,11 +138,7 @@ export default connect(
                       <Button
                         onPress={() => {
                           navigation.navigate(RECIPE_INFO_SCREEN, {
-<<<<<<< HEAD
                             data: item
-=======
-                            item
->>>>>>> info-ui
                           });
                         }}
                         transparent
