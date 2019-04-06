@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Container, Button, Text, Form, H1 } from "native-base";
 import { Constants } from "expo";
-import { login } from "../redux/actions/userActions";
+import { login, onAuth } from "../redux/actions/userActions";
 import { Spinner, TextInput } from "../components";
 import {
   REGISTER_SCREEN,
@@ -15,7 +15,7 @@ import { ScrollView } from "react-native";
 
 export default connect(
   user => user,
-  { login }
+  { login, onAuth }
 )(
   class extends Component {
     constructor(props) {
@@ -31,6 +31,13 @@ export default connect(
       };
     }
 
+    componentWillMount() {
+      this.props.onAuth(
+        () => this.props.navigation.navigate(DASHBOARD_SCREEN),
+        () => {}
+      );
+    }
+
     render() {
       const { navigation, login, user } = this.props;
       const { email, password, error, firstTime } = this.state;
@@ -40,7 +47,7 @@ export default connect(
         error.password = password.length < 6;
       }
 
-      return user.login.loading ? (
+      return user.login.loading || user.onAuth.loading ? (
         <Spinner />
       ) : (
         <Container style={{ paddingTop: Constants.statusBarHeight }}>

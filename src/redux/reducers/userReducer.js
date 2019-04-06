@@ -10,7 +10,10 @@ import {
   REGISTER_USER_ERROR,
   SIGN_OUT_USER_START,
   SIGN_OUT_USER_SUCCESS,
-  SIGN_OUT_USER_ERROR
+  SIGN_OUT_USER_ERROR,
+  ON_AUTH_START,
+  ON_AUTH_SUCCESS,
+  ON_AUTH_FAIL
 } from "../actions/types";
 
 const initialValues = {
@@ -27,6 +30,10 @@ const initialValues = {
     error: null
   },
   signOut: {
+    loading: false,
+    error: null
+  },
+  onAuth: {
     loading: false,
     error: null
   },
@@ -103,6 +110,16 @@ export default (state = initialValues, action) => {
           error: action.payload.error
         }
       };
+    case ON_AUTH_START:
+      return { ...state, onAuth: { ...state.onAuth, loading: true } };
+    case ON_AUTH_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        onAuth: { ...state.onAuth, loading: false }
+      };
+    case ON_AUTH_FAIL:
+      return { ...state, onAuth: { ...state.onAuth, loading: false } };
     default:
       return state;
   }

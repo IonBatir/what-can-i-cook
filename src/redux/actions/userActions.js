@@ -11,7 +11,10 @@ import {
   REGISTER_USER_ERROR,
   SIGN_OUT_USER_START,
   SIGN_OUT_USER_SUCCESS,
-  SIGN_OUT_USER_ERROR
+  SIGN_OUT_USER_ERROR,
+  ON_AUTH_START,
+  ON_AUTH_SUCCESS,
+  ON_AUTH_FAIL
 } from "./types";
 
 export const login = (
@@ -74,11 +77,7 @@ export const registerUser = (
           displayName: response.user.displayName,
           email: response.user.email,
           phoneNumber: response.user.phoneNumber,
-          photoURL: response.user.photoURL,
-          accessToken: response.user.stsTokenManager.accessToken,
-          expirationTime: response.user.stsTokenManager.expirationTime,
-          refreshToken: response.user.stsTokenManager.refreshToken,
-          uid: response.user.stsTokenManager.uid
+          photoURL: response.user.photoURL
         }
       });
       successCallback();
@@ -103,4 +102,22 @@ export const signOut = (successCallback, errorCallback) => dispatch => {
       dispatch({ type: SIGN_OUT_USER_ERROR, payload: { error } });
       errorCallback();
     });
+};
+
+export const onAuth = successCallback => dispatch => {
+  dispatch({ type: ON_AUTH_START });
+  auth().onAuthStateChanged(user => {
+    if (user) {
+      dispatch({
+        type: ON_AUTH_SUCCESS,
+        payload: {
+          displayName: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL
+        }
+      });
+      successCallback();
+    } else dispatch({ type: ON_AUTH_FAIL });
+  });
 };
