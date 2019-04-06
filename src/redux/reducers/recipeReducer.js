@@ -4,7 +4,10 @@ import {
   FETCH_ALL_RECIPE_ERROR,
   ADD_RECIPE_START,
   ADD_RECIPE_SUCCESS,
-  ADD_RECIPE_ERROR
+  ADD_RECIPE_ERROR,
+  FILTRE_ALL_RECIPE_START,
+  FILTRE_ALL_RECIPE_SUCCESS,
+  FILTRE_ALL_RECIPE_ERROR
 } from "../actions/types";
 
 const initialValues = {
@@ -13,6 +16,10 @@ const initialValues = {
     error: null
   },
   add: {
+    loading: false,
+    error: null
+  },
+  filtreRecite: {
     loading: false,
     error: null
   },
@@ -46,6 +53,26 @@ export default (state = initialValues, action) => {
       return {
         ...state,
         add: { ...state.add, loading: false, error: action.payload.error }
+      };
+    case FILTRE_ALL_RECIPE_START:
+      return {
+        ...state,
+        filtreRecite: { ...state.filtreRecite, loading: true }
+      };
+    case FILTRE_ALL_RECIPE_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        filtreRecite: { ...state.filtreRecite, loading: false }
+      };
+    case FILTRE_ALL_RECIPE_ERROR:
+      return {
+        ...state,
+        filtreRecite: {
+          ...state.filtreRecite,
+          loading: false,
+          error: action.payload.error
+        }
       };
     default:
       return state;
