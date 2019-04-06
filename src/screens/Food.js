@@ -77,7 +77,7 @@ const Food = connect(
             <Content>
               <List
                 dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                disableLeftSwipe
+                disableRightSwipe
                 renderRow={data => (
                   <ListItem
                     style={{
@@ -88,7 +88,8 @@ const Food = connect(
                   >
                     <Icon
                       style={{
-                        color: this.ChooseColor(new Date(data.expire_data))
+                        color: this.ChooseColor(new Date(data.expire_date)),
+                        fontSize: 15
                       }}
                       name="circle"
                       type="FontAwesome"
@@ -98,7 +99,8 @@ const Food = connect(
                       style={{
                         color: "#17252a",
                         fontSize: 15,
-                        paddingLeft: 10
+                        paddingLeft: 10,
+                        fontStyle: "italic"
                       }}
                     >
                       {data.name}
