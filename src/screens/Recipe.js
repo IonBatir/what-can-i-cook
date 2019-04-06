@@ -71,7 +71,11 @@ const Recipe = connect(
               />
             }
           >
-            <Header>
+            <Header
+              style={{
+                backgroundColor: "#77aeab"
+              }}
+            >
               <Body>
                 <Title>All recipes</Title>
               </Body>

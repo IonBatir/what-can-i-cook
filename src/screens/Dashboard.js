@@ -47,9 +47,13 @@ const items = [
 const Dashboard = () => (
   <Container style={{ paddingTop: Constants.statusBarHeight }}>
     <ScrollView>
-      <Header>
+      <Header 
+        style={{
+          backgroundColor: "#77aeab"
+        }}
+      >
         <Body>
-          <Title>Dashboard</Title>
+          <Title>Let's cook something!</Title>
         </Body>
       </Header>
 
