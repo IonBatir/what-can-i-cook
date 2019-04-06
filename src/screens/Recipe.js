@@ -21,7 +21,7 @@ import {
 } from "native-base";
 import { Constants } from "expo";
 import RecipeInfo from "./RecipeInfo";
-import { RECIPE_SCREEN } from "../consts";
+import { RECIPE_SCREEN, RECIPE_INFO_SCREEN } from "../consts";
 import { ScrollView } from "react-native";
 
 const items = [
