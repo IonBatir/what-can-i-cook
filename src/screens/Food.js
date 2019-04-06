@@ -11,18 +11,15 @@ import {
   Text,
   List,
   ListItem,
-  View,
   Fab
 } from "native-base";
-import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
 import { ScrollView, ListView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/foodActions";
-import FoodInfo from "./FoodInfo";
-import { FOOD_SCREEN, FOOD_INFO_SCREEN } from "../consts";
+import { FOOD_INFO_SCREEN } from "../consts";
 
-const Food = connect(
+export default connect(
   food => food,
   { fetchAll }
 )(
@@ -176,25 +173,5 @@ const Food = connect(
         </Container>
       );
     }
-  }
-);
-
-export default createStackNavigator(
-  {
-    [FOOD_SCREEN]: {
-      screen: Food,
-      navigationOptions: {
-        title: "Food"
-      }
-    },
-    [FOOD_INFO_SCREEN]: {
-      screen: FoodInfo,
-      navigationOptions: {
-        title: "Food Information"
-      }
-    }
-  },
-  {
-    initialRouteName: FOOD_SCREEN
   }
 );

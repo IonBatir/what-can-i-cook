@@ -1,30 +1,34 @@
 import React from "react";
 import { createBottomTabNavigator } from "react-navigation";
-import { Dashboard, Food, Recipe } from "../screens";
+import DashboardStack from "./DashboardStack";
+import FoodStack from "./FoodStack";
+import RecipeStack from "./RecipeStack";
 import { DASHBOARD_SCREEN, FOOD_SCREEN, RECIPE_SCREEN } from "../consts";
 import { Icon } from "native-base";
 
 export default createBottomTabNavigator(
   {
     [DASHBOARD_SCREEN]: {
-      screen: Dashboard,
+      screen: DashboardStack,
       navigationOptions: {
         tabBarLabel: "Dashboard",
         tabBarIcon: ({ tintColor }) => (
           <Icon
-           style={{color: "#2b9e98"}}
-           name="home" size={25} color="#900"
+            style={{ color: "#2b9e98" }}
+            name="home"
+            size={25}
+            color="#900"
           />
         )
       }
     },
     [FOOD_SCREEN]: {
-      screen: Food,
+      screen: FoodStack,
       navigationOptions: {
         tabBarLabel: "Food",
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            style={{color: "#2b9e98"}}
+            style={{ color: "#2b9e98" }}
             name="food-apple"
             type="MaterialCommunityIcons"
             size={25}
@@ -34,12 +38,12 @@ export default createBottomTabNavigator(
       }
     },
     [RECIPE_SCREEN]: {
-      screen: Recipe,
+      screen: RecipeStack,
       navigationOptions: {
         tabBarLabel: "Recipe",
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            style={{color: "#2b9e98"}}
+            style={{ color: "#2b9e98" }}
             name="food-variant"
             type="MaterialCommunityIcons"
             size={25}

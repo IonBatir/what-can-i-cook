@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { createStackNavigator } from "react-navigation";
 import { connect } from "react-redux";
 import {
   Container,
@@ -22,11 +21,10 @@ import {
 import { Constants } from "expo";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/recipeActions";
-import RecipeInfo from "./RecipeInfo";
-import { RECIPE_SCREEN, RECIPE_INFO_SCREEN } from "../consts";
+import { RECIPE_INFO_SCREEN } from "../consts";
 import { ScrollView, RefreshControl } from "react-native";
 
-const Recipe = connect(
+export default connect(
   recipe => recipe,
   { fetchAll }
 )(
@@ -58,7 +56,7 @@ const Recipe = connect(
     }
 
     render() {
-      const { recipe } = this.props;
+      const { recipe, navigation } = this.props;
       return recipe.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
@@ -137,7 +135,15 @@ const Recipe = connect(
                   </CardItem>
                   <CardItem>
                     <Left>
-                      <Button transparent textStyle={{ color: "#87838B" }}>
+                      <Button
+                        onPress={() => {
+                          navigation.navigate(RECIPE_INFO_SCREEN, {
+                            data: item
+                          });
+                        }}
+                        transparent
+                        textStyle={{ color: "#87838B" }}
+                      >
                         <Icon type="Feather" name="more-vertical" />
                         <Text>Check menu</Text>
                       </Button>
@@ -150,25 +156,5 @@ const Recipe = connect(
         </Container>
       );
     }
-  }
-);
-
-export default createStackNavigator(
-  {
-    [RECIPE_SCREEN]: {
-      screen: Recipe,
-      navigationOptions: {
-        title: "Recipe"
-      }
-    },
-    [RECIPE_INFO_SCREEN]: {
-      screen: RecipeInfo,
-      navigationOptions: {
-        title: "Recipe Information"
-      }
-    }
-  },
-  {
-    initialRouteName: RECIPE_SCREEN
   }
 );
