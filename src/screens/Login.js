@@ -97,7 +97,7 @@ export default connect(
             >
               <Text>Sign In</Text>
             </Button>
-            <Text style={{ margin: 10, alignItems: "center" }}>
+            <Text style={{ margin: 10, textAlign: "center" }}>
               {user.login.error && `${user.login.error}`}
             </Text>
             <Button

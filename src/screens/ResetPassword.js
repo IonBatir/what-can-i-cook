@@ -81,7 +81,7 @@ export default connect(
             >
               <Text>Reset</Text>
             </Button>
-            <Text style={{ margin: 10, alignItems: "center" }}>
+            <Text style={{ margin: 10, textAlign: "center" }}>
               {user.resetPassword.error && `${user.resetPassword.error}`}
             </Text>
             <Text

@@ -92,7 +92,7 @@ export default connect(
             >
               <Text>Register</Text>
             </Button>
-            <Text style={{ margin: 10, alignItems: "center" }}>
+            <Text style={{ margin: 10, textAlign: "center" }}>
               {user.register.error && `${user.register.error}`}
             </Text>
             <Text
