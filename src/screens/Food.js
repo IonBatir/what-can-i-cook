@@ -6,14 +6,16 @@ import {
   Content,
   Button,
   Icon,
-  Right,
   Body,
   Text,
   List,
   ListItem
 } from "native-base";
+import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
-import { ScrollView, StyleSheet, ListView, Alert } from "react-native";
+import { ScrollView, ListView, Alert } from "react-native";
+import FoodInfo from "./FoodInfo";
+import { FOOD_SCREEN, FOOD_INFO_SCREEN } from "../consts";
 
 const datas = [
   {
@@ -54,13 +56,7 @@ const datas = [
   }
 ];
 
-var dr = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-state = {
-  basit: true,
-  listViewData: datas
-};
-
-export default class extends Component {
+class Food extends Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -130,3 +126,23 @@ export default class extends Component {
     );
   }
 }
+
+export default createStackNavigator(
+  {
+    [FOOD_SCREEN]: {
+      screen: Food,
+      navigationOptions: {
+        title: "Food"
+      }
+    },
+    [FOOD_INFO_SCREEN]: {
+      screen: FoodInfo,
+      navigationOptions: {
+        title: "Food"
+      }
+    }
+  },
+  {
+    initialRouteName: FOOD_SCREEN
+  }
+);
