@@ -51,7 +51,14 @@ export const addFood = (
   firebase
     .firestore()
     .collection("Food")
-    .add({ name, bar_code, expire_date, quantity, unit, uid })
+    .add({
+      name,
+      bar_code,
+      expire_date: dateToString(expire_date),
+      quantity,
+      unit,
+      uid
+    })
     .then(() => {
       dispatch({ type: ADD_FOOD_SUCCESS });
       successCallback();
@@ -75,7 +82,7 @@ export const editFood = (
     .collection("Food")
     .set({
       bar_code,
-      expire_date,
+      expire_date: dateToString(expire_date),
       quantity,
       uniti
     })
@@ -144,4 +151,10 @@ export const fetchAllFoodNames = (
       dispatch({ type: FETCH_FOOD_NAMES_ERROR, payload: { error } });
       errorCallback();
     });
+};
+
+// utils
+
+const dateToString = date => {
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 };
