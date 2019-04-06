@@ -112,6 +112,7 @@ const Food = connect(
                   <ListItem
                     onPress={() => {
                       navigation.navigate(FOOD_INFO_SCREEN, {
+                        title: "Edit Food",
                         data
                       });
                     }}
@@ -166,7 +167,9 @@ const Food = connect(
             containerStyle={{}}
             style={{ backgroundColor: "#62c3be" }}
             position="bottomRight"
-            onPress={() => navigation.navigate(FOOD_INFO_SCREEN)}
+            onPress={() =>
+              navigation.navigate(FOOD_INFO_SCREEN, { title: "Add Food" })
+            }
           >
             <Icon name="add-to-list" type="Entypo" />
           </Fab>
