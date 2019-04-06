@@ -19,7 +19,6 @@ import {
   Item,
   Input
 } from "native-base";
-import { Constants } from "expo";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/recipeActions";
 import RecipeInfo from "./RecipeInfo";

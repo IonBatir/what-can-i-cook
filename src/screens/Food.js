@@ -14,7 +14,6 @@ import {
   ListItem,
   Fab
 } from "native-base";
-import { Constants } from "expo";
 import { ScrollView, ListView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/foodActions";
@@ -83,7 +82,7 @@ export default connect(
       return food.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView
             refreshControl={
               <RefreshControl

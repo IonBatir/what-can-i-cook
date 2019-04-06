@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, Button, Text, Form, H1 } from "native-base";
 import { connect } from "react-redux";
-import { Constants } from "expo";
 import { Spinner, TextInput } from "../components";
 import { registerUser } from "../redux/actions/userActions";
 import { LOGIN_SCREEN, DASHBOARD_SCREEN, EMAIL_REGEX } from "../consts";
@@ -37,7 +36,7 @@ export default connect(
       return user.register.loading ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView>
             <H1
               style={{

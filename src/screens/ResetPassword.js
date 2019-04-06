@@ -11,7 +11,6 @@ import {
 } from "native-base";
 import { connect } from "react-redux";
 import { resetPassword } from "../redux/actions/userActions";
-import { Constants } from "expo";
 import { LOGIN_SCREEN, EMAIL_REGEX } from "../consts";
 import { Spinner, TextInput } from "../components";
 import { ScrollView } from "react-native";
@@ -41,7 +40,7 @@ export default connect(
       return user.resetPassword.loading ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView>
             <H1
               style={{

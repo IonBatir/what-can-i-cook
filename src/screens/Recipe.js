@@ -18,7 +18,6 @@ import {
   Item,
   Input
 } from "native-base";
-import { Constants } from "expo";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/recipeActions";
 import { RECIPE_INFO_SCREEN } from "../consts";
@@ -60,7 +59,7 @@ export default connect(
       return recipe.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView
             refreshControl={
               <RefreshControl

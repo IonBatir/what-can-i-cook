@@ -16,7 +16,6 @@ import {
   H1,
   List
 } from "native-base";
-import { Constants } from "expo";
 import { ScrollView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
 import { RECIPE_INFO_SCREEN } from "../consts";
@@ -60,7 +59,7 @@ export default connect(
       return recipe.filtreRecite.loading && !refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView
             refreshControl={
               <RefreshControl
