@@ -50,12 +50,6 @@ const items = [
 const Recipe = () => (
   <Container style={{ paddingTop: Constants.statusBarHeight }}>
     <ScrollView>
-      <Header>
-        <Body>
-          <Title>All recipes</Title>
-        </Body>
-      </Header>
-
       <Header searchBar rounded>
         <Item>
           <Icon name="ios-search" />
@@ -136,7 +130,7 @@ export default createStackNavigator(
     [RECIPE_INFO_SCREEN]: {
       screen: RecipeInfo,
       navigationOptions: {
-        title: "Recipe"
+        title: "Recipe Information"
       }
     }
   },
