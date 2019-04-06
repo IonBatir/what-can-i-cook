@@ -93,7 +93,7 @@ export default () => (
           <Card style={{ flex: 0 }}>
             <CardItem>
               <Left>
-                <Thumbnail source={require("../../assets/logss.png")} />
+                <Thumbnail source={require("../../assets/icon.png")} />
                 <Body>
                   <Text>What Can I Cook?</Text>
                   <Text note>April 6, 2019</Text>
