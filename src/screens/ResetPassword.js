@@ -13,10 +13,11 @@ import { connect } from "react-redux";
 import { resetPassword } from "../redux/actions/userActions";
 import { Constants } from "expo";
 import { LOGIN_SCREEN } from "../consts";
+import { Spinner } from "../components";
 import { ScrollView } from "react-native";
 
 export default connect(
-  ({ user }) => user,
+  user => user,
   { resetPassword }
 )(
   class extends Component {
@@ -30,7 +31,9 @@ export default connect(
     render() {
       const { navigation, user, resetPassword } = this.props;
       const { email } = this.state;
-      return (
+      return user.resetPassword.loading ? (
+        <Spinner />
+      ) : (
         <Container style={{ paddingTop: Constants.statusBarHeight }}>
           <ScrollView>
             <H1
@@ -46,7 +49,10 @@ export default connect(
             <Form>
               <Item floatingLabel underline>
                 <Label>Email</Label>
-                <Input onChangeText={text => this.setState({ email: text })} />
+                <Input
+                  value={email}
+                  onChangeText={text => this.setState({ email: text })}
+                />
               </Item>
             </Form>
 
@@ -67,7 +73,9 @@ export default connect(
             >
               <Text>Reset</Text>
             </Button>
-
+            <Text style={{ margin: 10, alignItems: "center" }}>
+              {user.resetPassword.error && `${user.resetPassword.error}`}
+            </Text>
             <Text
               style={{ textAlign: "center", marginTop: 10 }}
             >{`Remembered?`}</Text>

@@ -12,6 +12,7 @@ import {
 } from "native-base";
 import { Constants } from "expo";
 import { login } from "../redux/actions/userActions";
+import { Spinner } from "../components";
 import {
   REGISTER_SCREEN,
   APP_NAME,
@@ -21,7 +22,7 @@ import {
 import { ScrollView } from "react-native";
 
 export default connect(
-  ({ user }) => user,
+  user => user,
   { login }
 )(
   class extends Component {
@@ -36,7 +37,9 @@ export default connect(
     render() {
       const { navigation, login, user } = this.props;
       const { email, password } = this.state;
-      return (
+      return user.login.loading ? (
+        <Spinner />
+      ) : (
         <Container style={{ paddingTop: Constants.statusBarHeight }}>
           <ScrollView>
             <H1
@@ -52,11 +55,15 @@ export default connect(
             <Form>
               <Item floatingLabel underline>
                 <Label>Email</Label>
-                <Input onChangeText={text => this.setState({ email: text })} />
+                <Input
+                  value={email}
+                  onChangeText={text => this.setState({ email: text })}
+                />
               </Item>
               <Item floatingLabel underline>
                 <Label>Password</Label>
                 <Input
+                  value={password}
                   onChangeText={text => this.setState({ password: text })}
                   secureTextEntry
                 />
@@ -80,6 +87,9 @@ export default connect(
             >
               <Text>Sign In</Text>
             </Button>
+            <Text style={{ margin: 10, alignItems: "center" }}>
+              {user.login.error && `${user.login.error}`}
+            </Text>
             <Button
               style={{ alignSelf: "center" }}
               onPress={() => navigation.navigate(RESET_PASSWORD_SCREEN)}
