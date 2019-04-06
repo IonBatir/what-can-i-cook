@@ -35,7 +35,6 @@ export const login = (
       successCallback();
     })
     .catch(error => {
-      console.log(error);
       dispatch({ type: LOGIN_USER_ERROR, payload: { error } });
       errorCallback();
     });
@@ -49,8 +48,7 @@ export const resetPassword = (
   dispatch({ type: RESET_PASSWORD_START });
   auth()
     .sendPasswordResetEmail(email)
-    .then(response => {
-      console.log("resetPassword: ", response);
+    .then(() => {
       dispatch({ type: RESET_PASSWORD_SUCCESS, payload: {} });
       successCallback();
     })

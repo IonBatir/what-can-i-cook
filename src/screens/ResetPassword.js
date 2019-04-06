@@ -52,7 +52,13 @@ export default connect(
 
             <Button
               block
-              onPress={() => navigation.navigate(LOGIN_SCREEN)}
+              onPress={() => {
+                resetPassword(
+                  { email },
+                  () => navigation.navigate(LOGIN_SCREEN),
+                  () => {}
+                );
+              }}
               style={{
                 backgroundColor: "#5181b8",
                 margin: 10,
@@ -72,13 +78,7 @@ export default connect(
                 marginBottom: 36,
                 alignSelf: "center"
               }}
-              onPress={() => {
-                resetPassword(
-                  { email },
-                  () => navigation.navigate(LOGIN_SCREEN),
-                  () => {}
-                );
-              }}
+              onPress={() => navigation.navigate(LOGIN_SCREEN)}
               transparent
             >
               <Text style={{ textAlign: "center" }}>Go Back!</Text>
