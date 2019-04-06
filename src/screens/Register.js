@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Button,
-  Text,
-  Form,
-  Item,
-  Input,
-  Label,
-  H1
-} from "native-base";
+import { Container, Button, Text, Form, H1 } from "native-base";
 import { connect } from "react-redux";
 import { Constants } from "expo";
-import { Spinner } from "../components";
+import { Spinner, TextInput } from "../components";
 import { registerUser } from "../redux/actions/userActions";
-import { LOGIN_SCREEN, DASHBOARD_SCREEN } from "../consts";
+import { LOGIN_SCREEN, DASHBOARD_SCREEN, EMAIL_REGEX } from "../consts";
 import { ScrollView } from "react-native";
 
 export default connect(
@@ -24,14 +15,25 @@ export default connect(
     constructor(props) {
       super(props);
       this.state = {
+        firstTime: true,
         email: "",
-        password: ""
+        password: "",
+        error: {
+          email: false,
+          password: false
+        }
       };
     }
 
     render() {
       const { registerUser, navigation, user } = this.props;
-      const { email, password } = this.state;
+      const { email, password, firstTime, error } = this.state;
+
+      if (!firstTime) {
+        error.email = !EMAIL_REGEX.test(email);
+        error.password = password.length < 6;
+      }
+
       return user.register.loading ? (
         <Spinner />
       ) : (
@@ -48,26 +50,32 @@ export default connect(
             </H1>
 
             <Form>
-              <Item floatingLabel underline>
-                <Label>Email</Label>
-                <Input
-                  value={email}
-                  onChangeText={text => this.setState({ email: text })}
-                />
-              </Item>
-              <Item floatingLabel underline>
-                <Label>Password</Label>
-                <Input
-                  value={password}
-                  onChangeText={text => this.setState({ password: text })}
-                  secureTextEntry
-                />
-              </Item>
+              <TextInput
+                error={error.email}
+                label={"Email"}
+                value={email}
+                onChangeText={text =>
+                  this.setState({
+                    email: text
+                  })
+                }
+              />
+              <TextInput
+                error={error.password}
+                label={"Password"}
+                value={password}
+                onChangeText={text =>
+                  this.setState({
+                    password: text
+                  })
+                }
+              />
             </Form>
 
             <Button
               block
               onPress={() => {
+                this.setState({ firstTime: false });
                 registerUser(
                   { email, password },
                   () => navigation.navigate(DASHBOARD_SCREEN),

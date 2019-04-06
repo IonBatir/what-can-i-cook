@@ -12,8 +12,8 @@ import {
 import { connect } from "react-redux";
 import { resetPassword } from "../redux/actions/userActions";
 import { Constants } from "expo";
-import { LOGIN_SCREEN } from "../consts";
-import { Spinner } from "../components";
+import { LOGIN_SCREEN, EMAIL_REGEX } from "../consts";
+import { Spinner, TextInput } from "../components";
 import { ScrollView } from "react-native";
 
 export default connect(
@@ -24,13 +24,20 @@ export default connect(
     constructor(props) {
       super(props);
       this.state = {
-        email: ""
+        firstTime: true,
+        email: "",
+        error: {
+          email: false
+        }
       };
     }
 
     render() {
       const { navigation, user, resetPassword } = this.props;
-      const { email } = this.state;
+      const { email, firstTime, error } = this.state;
+
+      if (!firstTime) error.email = !EMAIL_REGEX.test(email);
+
       return user.resetPassword.loading ? (
         <Spinner />
       ) : (
@@ -47,18 +54,18 @@ export default connect(
             </H1>
 
             <Form>
-              <Item floatingLabel underline>
-                <Label>Email</Label>
-                <Input
-                  value={email}
-                  onChangeText={text => this.setState({ email: text })}
-                />
-              </Item>
+              <TextInput
+                label={"Email"}
+                error={error.email}
+                value={email}
+                onChangeText={text => this.setState({ email: text })}
+              />
             </Form>
 
             <Button
               block
               onPress={() => {
+                this.setState({ firstTime: false });
                 resetPassword(
                   { email },
                   () => navigation.navigate(LOGIN_SCREEN),
