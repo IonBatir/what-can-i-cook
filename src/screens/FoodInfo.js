@@ -10,6 +10,7 @@ import {
   DatePicker,
   Left
 } from "native-base";
+import { underline } from "ansi-colors";
 
 export default class extends Component {
   constructor(props) {
@@ -92,12 +93,18 @@ export default class extends Component {
                   backgroundColor: "gray"
                 }
               : {
+                  backgroundColor:"#3aafa9",
                   margin: 10,
-                  marginTop: 20
+                  marginTop: 20,
+                  borderRadius: 0
                 }
           }
         >
-          <Text>Save</Text>
+          <Text
+            style={{
+              fontWeight:"bold"
+            }}
+          >Save</Text>
         </Button>
         {this.editMode && (
           <Button
@@ -105,11 +112,17 @@ export default class extends Component {
             danger
             onPress={() => console.log("pressed")}
             style={{
+              backgroundColor: 'white',
               margin: 10,
-              marginTop: 20
+              marginTop: 20,
             }}
           >
-            <Text>Delete</Text>
+            <Text
+              style={{
+                color:'grey',
+                textDecorationLine: "underline"
+              }}
+            >Remove item</Text>
           </Button>
         )}
       </Container>

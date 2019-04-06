@@ -164,7 +164,7 @@ const Food = connect(
             <Fab
               active={this.state.active}
               containerStyle={{}}
-              style={{ backgroundColor: "#5067FF" }}
+              style={{ backgroundColor: "#3aafa9" }}
               position="bottomRight"
               onPress={() => navigation.navigate(FOOD_INFO_SCREEN)}
             >
