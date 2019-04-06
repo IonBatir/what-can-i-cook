@@ -115,22 +115,26 @@ const Dashboard = connect(
                     </Left>
                   </CardItem>
                   <CardItem>
-                    <H1>{item.Name}</H1>
+                    <H1>{item.name}</H1>
                   </CardItem>
                   <CardItem>
                     <Body>
-                      <Text>{item.Description}</Text>
+                      <Text>{item.description}</Text>
                     </Body>
                   </CardItem>
                   <CardItem>
                     <Left>
                       <Button
-                        onPress={() => navigation.navigate(RECIPE_INFO_SCREEN)}
+                        onPress={() => {
+                          navigation.navigate(RECIPE_INFO_SCREEN, {
+                            item
+                          });
+                        }}
                         transparent
                         textStyle={{ color: "#87838B" }}
                       >
                         <Icon type="Feather" name="more-vertical" />
-                        <Text>Check menu</Text>
+                        <Text>See more</Text>
                       </Button>
                     </Left>
                   </CardItem>
