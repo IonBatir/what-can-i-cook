@@ -18,6 +18,7 @@ import {
   deleteFood,
   fetchAll
 } from "../redux/actions/foodActions";
+import { parse } from "stacktrace-parser";
 
 export default connect(
   food => food,
@@ -31,17 +32,20 @@ export default connect(
 
       this.state = this.editMode
         ? {
-            name: params.data.name,
-            expire_date: new Date(params.data.expire_date),
-            quantity: params.data.quantity,
-            uniti: params.data.uniti
-          }
+          name: params.data.name,
+          expire_date: new Date(params.data.expire_date),
+          quantity: params.data.quantity,
+          uniti: params.data.uniti,
+          bar_code: params.data.bar_code,
+          id: params.data.id
+        }
         : {
-            name: "",
-            expire_date: new Date(),
-            quantity: "",
-            uniti: ""
-          };
+          name: "",
+          expire_date: new Date(),
+          quantity: "",
+          uniti: "",
+          bar_code: ""
+        };
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -66,129 +70,136 @@ export default connect(
         food.add.loading ||
         food.edit.loading ||
         food.delete.loading ? (
-        <Spinner />
-      ) : (
-        <Container>
-          <Form>
-            <Item stackedLabel>
-              <Label>Name</Label>
-              <Input
-                onChangeText={text => this.setState({ name: text })}
-                defaultValue={name}
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label>Expire Date</Label>
-              <DatePicker
-                defaultDate={expire_date}
-                minimumDate={new Date()}
-                maximumDate={new Date(2020, 12, 31)}
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                onDateChange={date => this.setState({ expire_date: date })}
-                disabled={false}
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label>Quantity</Label>
-              <Input
-                onChangeText={text => this.setState({ quantity: text })}
-                defaultValue={quantity}
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label>Unity</Label>
-              <Input
-                onChangeText={text => this.setState({ uniti: text })}
-                defaultValue={uniti}
-              />
-            </Item>
-          </Form>
+          <Spinner />
+        ) : (
+          <Container>
+            <Form>
+              <Item stackedLabel>
+                <Label>Name</Label>
+                <Input
+                  onChangeText={text => this.setState({ name: text })}
+                  defaultValue={name}
+                />
+              </Item>
+              <Item stackedLabel>
+                <Label>Expire Date</Label>
+                <DatePicker
+                  defaultDate={expire_date}
+                  minimumDate={new Date()}
+                  maximumDate={new Date(2020, 12, 31)}
+                  locale={"en"}
+                  timeZoneOffsetInMinutes={undefined}
+                  modalTransparent={false}
+                  animationType={"fade"}
+                  androidMode={"default"}
+                  onDateChange={date => this.setState({ expire_date: date })}
+                  disabled={false}
+                />
+              </Item>
+              <Item stackedLabel>
+                <Label>Quantity</Label>
+                <Input
+                  onChangeText={text => this.setState({ quantity: text })}
+                  defaultValue={quantity}
+                />
+              </Item>
+              <Item stackedLabel>
+                <Label>Unity</Label>
+                <Input
+                  onChangeText={text => this.setState({ uniti: text })}
+                  defaultValue={uniti}
+                />
+              </Item>
+            </Form>
 
-          <Button
-            block
-            disabled={buttonDisabled}
-            success
-            onPress={() => {
-              this.editMode
-                ? editFood(
+            <Button
+              block
+              disabled={buttonDisabled}
+              success
+              onPress={() => {
+                this.editMode
+                  ? editFood(
                     { ...this.state },
                     () => {
                       fetchAll(
                         () => {
                           navigation.navigate(FOOD_SCREEN);
                         },
-                        () => {}
+                        () => { }
                       );
                     },
-                    () => {}
+                    () => { }
                   )
-                : addFood(
+                  : addFood(
                     { ...this.state },
                     () => {
                       fetchAll(
                         () => {
                           navigation.navigate(FOOD_SCREEN);
                         },
-                        () => {}
+                        () => { }
                       );
                     },
-                    () => {}
+                    () => { }
                   );
-            }}
-            style={
-              buttonDisabled
-                ? {
+              }}
+              style={
+                buttonDisabled
+                  ? {
                     margin: 10,
                     marginTop: 20,
                     backgroundColor: "gray",
                     borderRadius: 0
                   }
-                : {
+                  : {
                     backgroundColor: "#3aafa9",
                     margin: 10,
                     marginTop: 20,
                     borderRadius: 0
                   }
-            }
-          >
-            <Text
-              style={{
-                fontWeight: "bold"
-              }}
-            >
-              Save
-            </Text>
-          </Button>
-          {this.editMode && (
-            <Button
-              block
-              danger
-              onPress={() =>
-                deleteFood({ name: this.state.name }, () => {}, () => {})
               }
-              style={{
-                backgroundColor: "white",
-                margin: 10,
-                marginTop: 20,
-                elevation: 0
-              }}
             >
               <Text
                 style={{
-                  color: "grey",
-                  textDecorationLine: "underline"
+                  fontWeight: "bold"
                 }}
               >
-                Remove item
-              </Text>
+                Save
+            </Text>
             </Button>
-          )}
-        </Container>
-      );
+            {this.editMode && (
+              <Button
+                block
+                danger
+                onPress={() =>
+                  deleteFood({ id: this.state.id }, () => {
+                    fetchAll(
+                      () => {
+                        navigation.navigate(FOOD_SCREEN);
+                      },
+                      () => { }
+                    );
+                  }, () => { })
+                }
+                style={{
+                  backgroundColor: "white",
+                  margin: 10,
+                  marginTop: 20,
+                  elevation: 0
+                }}
+              >
+                <Text
+                  style={{
+                    color: "grey",
+                    textDecorationLine: "underline"
+                  }}
+                >
+                  Remove item
+              </Text>
+              </Button>
+            )}
+          </Container>
+        );
     }
   }
 );
