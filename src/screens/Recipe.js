@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import React from "react";
+import { createStackNavigator } from "react-navigation";
 import {
   Container,
   Header,
@@ -20,7 +20,9 @@ import {
   Input
 } from "native-base";
 import { Constants } from "expo";
-import { ScrollView, Image } from "react-native";
+import RecipeInfo from "./RecipeInfo";
+import { RECIPE_SCREEN } from "../consts";
+import { ScrollView } from "react-native";
 
 const items = [
   {
@@ -45,7 +47,7 @@ const items = [
   }
 ];
 
-export default () => (
+const Recipe = () => (
   <Container style={{ paddingTop: Constants.statusBarHeight }}>
     <ScrollView>
       <Header>
@@ -121,4 +123,24 @@ export default () => (
       />
     </ScrollView>
   </Container>
+);
+
+export default createStackNavigator(
+  {
+    [RECIPE_SCREEN]: {
+      screen: Recipe,
+      navigationOptions: {
+        title: "Recipe"
+      }
+    },
+    [RECIPE_INFO_SCREEN]: {
+      screen: RecipeInfo,
+      navigationOptions: {
+        title: "Recipe"
+      }
+    }
+  },
+  {
+    initialRouteName: RECIPE_SCREEN
+  }
 );
