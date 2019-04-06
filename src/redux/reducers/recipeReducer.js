@@ -8,7 +8,7 @@ import {
 } from "../actions/types";
 
 const initialValues = {
-  FETCH_ALL: {
+  fetchAll: {
     loading: false,
     error: null
   },
@@ -22,14 +22,18 @@ const initialValues = {
 export default (state = initialValues, action) => {
   switch (action.type) {
     case FETCH_ALL_RECIPE_START:
-      return { ...state, FETCH_ALL: { ...state.FETCH_ALL, loading: true } };
+      return { ...state, fetchAll: { ...state.fetchAll, loading: true } };
     case FETCH_ALL_RECIPE_SUCCESS:
-      return { ...state, FETCH_ALL: { ...state.FETCH_ALL, loading: false } };
+      return {
+        ...state,
+        ...action.payload,
+        fetchAll: { ...state.fetchAll, loading: false }
+      };
     case FETCH_ALL_RECIPE_ERROR:
       return {
         ...state,
-        FETCH_ALL: {
-          ...state.FETCH_ALL,
+        fetchAll: {
+          ...state.fetchAll,
           loading: false,
           error: action.payload.error
         }
