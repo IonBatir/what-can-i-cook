@@ -21,6 +21,7 @@ export default class extends Component {
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
     this.setState({ loading: false });
+    console.ignoredYellowBox = ["Setting a timer for a long period of time"];
     YellowBox.ignoreWarnings(["Setting a timer for a long period of time"]);
   }
 
