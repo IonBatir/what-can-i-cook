@@ -120,7 +120,8 @@ export default class extends Component {
             style={{
               backgroundColor: "white",
               margin: 10,
-              marginTop: 20
+              marginTop: 20,
+              elevation: 0
             }}
           >
             <Text
