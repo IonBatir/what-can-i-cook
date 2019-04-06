@@ -138,7 +138,7 @@ export default connect(
                       <Button
                         onPress={() => {
                           navigation.navigate(RECIPE_INFO_SCREEN, {
-                            data: item
+                            item
                           });
                         }}
                         transparent
