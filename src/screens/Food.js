@@ -10,20 +10,21 @@ import {
   Body,
   Text,
   List,
-  ListItem
+  ListItem,
+  View,
+  Fab
 } from "native-base";
 import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
 import { ScrollView, ListView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
-import { fetchAll, fetchAllFoodNames } from "../redux/actions/foodActions";
+import { fetchAll } from "../redux/actions/foodActions";
 import FoodInfo from "./FoodInfo";
 import { FOOD_SCREEN, FOOD_INFO_SCREEN } from "../consts";
 
-
 const Food = connect(
   food => food,
-  { fetchAll, fetchAllFoodNames },
+  { fetchAll }
 )(
   class extends Component {
     constructor(props) {
@@ -92,18 +93,28 @@ const Food = connect(
                 />
               }
             >
-              <Header>
+              <Header
+                style={{
+                  backgroundColor: "#77aeab",
+                  marginBottom: 10
+                }}
+              >
                 <Body>
-                  <Title>Food</Title>
+                  <Title>Available products in your fridge.</Title>
                 </Body>
               </Header>
 
               <Content>
                 <List
                   dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                  disableLeftSwipe
+                  disableRightSwipe
                   renderRow={data => (
                     <ListItem
+                      onPress={() => {
+                        navigation.navigate(FOOD_INFO_SCREEN, {
+                          data
+                        });
+                      }}
                       style={{
                         paddingLeft: 20,
                         borderBottomColor: "#bbb",
@@ -112,7 +123,8 @@ const Food = connect(
                     >
                       <Icon
                         style={{
-                          color: this.ChooseColor(new Date(data.expire_data))
+                          color: this.ChooseColor(new Date(data.expire_date)),
+                          fontSize: 15
                         }}
                         name="circle"
                         type="FontAwesome"
@@ -122,7 +134,8 @@ const Food = connect(
                         style={{
                           color: "#17252a",
                           fontSize: 15,
-                          paddingLeft: 10
+                          paddingLeft: 10,
+                          fontStyle: "italic"
                         }}
                       >
                         {data.name}
@@ -143,11 +156,20 @@ const Food = connect(
                       <Icon active name="trash" />
                     </Button>
                   )}
-                  leftOpenValue={75}
+                  disableRightSwipe
                   rightOpenValue={-75}
                 />
               </Content>
             </ScrollView>
+            <Fab
+              active={this.state.active}
+              containerStyle={{}}
+              style={{ backgroundColor: "#5067FF" }}
+              position="bottomRight"
+              onPress={() => navigation.navigate(FOOD_INFO_SCREEN)}
+            >
+              <Icon name="add-to-list" type="Entypo" />
+            </Fab>
           </Container>
         );
     }
@@ -165,7 +187,7 @@ export default createStackNavigator(
     [FOOD_INFO_SCREEN]: {
       screen: FoodInfo,
       navigationOptions: {
-        title: "Food"
+        title: "Food Information"
       }
     }
   },

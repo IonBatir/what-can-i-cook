@@ -71,7 +71,11 @@ const Recipe = connect(
               />
             }
           >
-            <Header>
+            <Header
+              style={{
+                backgroundColor: "#77aeab"
+              }}
+            >
               <Body>
                 <Title>All recipes</Title>
               </Body>
@@ -160,7 +164,7 @@ export default createStackNavigator(
     [RECIPE_INFO_SCREEN]: {
       screen: RecipeInfo,
       navigationOptions: {
-        title: "Recipe"
+        title: "Recipe Information"
       }
     }
   },
