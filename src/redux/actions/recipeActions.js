@@ -7,6 +7,12 @@ import {
   ADD_RECIPE_START,
   ADD_RECIPE_SUCCESS,
   ADD_RECIPE_ERROR,
+  EDIT_RECIPE_START,
+  EDIT_RECIPE_SUCCESS,
+  EDIT_RECIPE_ERROR,
+  DELETE_RECIPE_START,
+  DELETE_RECIPE_SUCCESS,
+  DELETE_RECIPE_ERROR,
   FILTRE_ALL_RECIPE_START,
   FILTRE_ALL_RECIPE_SUCCESS,
   FILTRE_ALL_RECIPE_ERROR
@@ -52,7 +58,65 @@ export const addRecipe = (
     .catch(error => {
       console.log(error);
       dispatch({ type: ADD_RECIPE_ERROR, payload: { error } });
-      errorCallback;
+      errorCallback();
+    });
+};
+
+export const editRecipe = (
+  { name, description, algorithm, foods },
+  successCallback,
+  errorCallback
+) => dispatch => {
+  dispatch({ type: EDIT_RECIPE_START });
+  const uid = firebase.auth().currentUser.uid;
+  firebase
+    .firestore()
+    .collection("Recipes")
+    .set({
+      description,
+      algorithm,
+      foods
+    })
+    .where({
+      name,
+      uid
+    })
+    .then(response => {
+      console.log("editRecipe response: ", response);
+      dispatch({ type: EDIT_RECIPE_SUCCESS });
+      successCallback();
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({ type: EDIT_RECIPE_ERROR, payload: { error } });
+      errorCallback();
+    });
+};
+
+export const deleteRecipe = (
+  { name },
+  successCallback,
+  errorCallback
+) => dispatch => {
+  dispatch({ type: DELETE_RECIPE_START });
+  const uid = firebase.auth().currentUser.uid;
+  firebase
+    .firestore()
+    .collection("Recipes")
+    .delete()
+    .where({
+      name,
+      uid
+    })
+    .then(reponse => {
+      console.log("deleteRecipe response: ", response);
+      dispatch({ type: DELETE_RECIPE_SUCCESS });
+      successCallback();
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({ type: DELETE_RECIPE_ERROR, payload: { error } });
+      errorCallback();
     });
 };
 

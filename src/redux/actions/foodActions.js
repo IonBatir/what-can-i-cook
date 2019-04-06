@@ -7,11 +7,16 @@ import {
   ADD_FOOD_START,
   ADD_FOOD_SUCCESS,
   ADD_FOOD_ERROR,
+  EDIT_FOOD_START,
+  EDIT_FOOD_SUCCESS,
+  EDIT_FOOD_ERROR,
+  DELETE_FOOD_START,
+  DELETE_FOOD_SUCCESS,
+  DELETE_FOOD_ERROR,
   FETCH_FOOD_NAMES_START,
   FETCH_FOOD_NAMES_SUCCESS,
   FETCH_FOOD_NAMES_ERROR
 } from "../actions/types";
-
 
 export const fetchAll = (successCallback, errorCallback) => dispatch => {
   dispatch({ type: FETCH_ALL_FOOD_START });
@@ -54,11 +59,73 @@ export const addFood = (
     .catch(error => {
       console.log(error);
       dispatch({ type: ADD_FOOD_ERROR, payload: { error } });
-      errorCallback;
+      errorCallback();
     });
 };
 
-export const fetchAllFoodNames = (successCallback, errorCallback) => dispatch => {
+export const editFood = (
+  { name, bar_code, expire_date, quantity, uniti },
+  successCallback,
+  errorCallback
+) => dispatch => {
+  dispatch({ type: EDIT_FOOD_START });
+  const uid = firebase.auth().currentUser.uid;
+  firebase
+    .firestore()
+    .collection("Food")
+    .set({
+      bar_code,
+      expire_date,
+      quantity,
+      uniti
+    })
+    .where({
+      uid,
+      name
+    })
+    .then(response => {
+      console.log("editFood response: ", response);
+      dispatch({ type: EDIT_FOOD_SUCCESS });
+      successCallback();
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({ type: EDIT_FOOD_ERROR, payload: { error } });
+      errorCallback();
+    });
+};
+
+export const deleteFood = (
+  { name },
+  successCallback,
+  errorCallback
+) => dispatch => {
+  dispatch({ type: DELETE_FOOD_START });
+  const uid = firebase.auth().currentUser.uid;
+  firebase
+    .firestore()
+    .collection("Food")
+    .delete()
+    .where({
+      uid,
+      name
+    })
+    .then(response => {
+      console.log("deleteFood response: ", response);
+      dispatch({ type: DELETE_FOOD_SUCCESS });
+      successCallback();
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({ type: DELETE_FOOD_ERROR, payload: { error } });
+      errorCallback();
+    });
+};
+
+export const fetchAllFoodNames = (
+  successCallback,
+  errorCallback
+) => dispatch => {
   dispatch({ type: FETCH_FOOD_NAMES_START });
   firebase
     .firestore()
@@ -78,4 +145,3 @@ export const fetchAllFoodNames = (successCallback, errorCallback) => dispatch =>
       errorCallback();
     });
 };
-
