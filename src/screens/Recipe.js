@@ -46,6 +46,7 @@ const Recipe = connect(
     }
 
     render() {
+      const { recipe } = this.props;
       return recipe.fetchAll.loading ? (
         <Spinner />
       ) : (
