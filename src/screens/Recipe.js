@@ -24,7 +24,7 @@ import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/recipeActions";
 import RecipeInfo from "./RecipeInfo";
 import { RECIPE_SCREEN, RECIPE_INFO_SCREEN } from "../consts";
-import { ScrollView } from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 
 const Recipe = connect(
   recipe => recipe,
@@ -33,8 +33,20 @@ const Recipe = connect(
   class extends Component {
     constructor(props) {
       super(props);
-      this.state = { items: [] };
+      this.state = { items: [], refreshing: false };
     }
+
+    onRefresh = () => {
+      this.setState({ refreshing: true });
+      this.props.fetchAll(
+        () => {
+          this.setState({ items: this.props.recipe.items, refreshing: false });
+        },
+        () => {
+          this.setState({ refreshing: false });
+        }
+      );
+    };
 
     componentDidMount() {
       this.props.fetchAll(
@@ -47,11 +59,18 @@ const Recipe = connect(
 
     render() {
       const { recipe } = this.props;
-      return recipe.fetchAll.loading ? (
+      return recipe.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
         <Container style={{ paddingTop: Constants.statusBarHeight }}>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          >
             <Header>
               <Body>
                 <Title>All recipes</Title>
