@@ -4,7 +4,10 @@ import {
   FETCH_ALL_FOOD_ERROR,
   ADD_FOOD_START,
   ADD_FOOD_SUCCESS,
-  ADD_FOOD_ERROR
+  ADD_FOOD_ERROR,
+  FETCH_FOOD_NAMES_START,
+  FETCH_FOOD_NAMES_SUCCESS,
+  FETCH_FOOD_NAMES_ERROR
 } from "../actions/types";
 
 const initialValues = {
@@ -16,7 +19,12 @@ const initialValues = {
     loading: false,
     error: null
   },
-  items: []
+  fetchNames: {
+    loading: false,
+    error: null
+  },
+  items: [],
+  names: []
 };
 
 export default (state = initialValues, action) => {
@@ -47,6 +55,12 @@ export default (state = initialValues, action) => {
         ...state,
         add: { ...state.add, loading: false, error: action.payload.error }
       };
+    case FETCH_FOOD_NAMES_START:
+      return { ...state, fetchNames: { ...state.fetchNames, loading: true } };
+    case FETCH_FOOD_NAMES_SUCCESS:
+      return { ...state, ...action.payload, fetchNames: { ...state.fetchNames, loading: false } }
+    case FETCH_FOOD_NAMES_ERROR:
+      return { ...state, fetchNames: { ...state.fetchNames, loading: false, error: action.payload.error } }
     default:
       return state;
   }

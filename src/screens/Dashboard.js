@@ -20,6 +20,7 @@ import { Constants } from "expo";
 import { ScrollView } from "react-native";
 import RecipeInfo from "./RecipeInfo";
 import { DASHBOARD_SCREEN, RECIPE_INFO_SCREEN } from "../consts";
+import { fetchAllFoodNames } from "../redux/actions/foodActions"
 
 const items = [
   {

@@ -6,8 +6,12 @@ import {
   FETCH_ALL_FOOD_ERROR,
   ADD_FOOD_START,
   ADD_FOOD_SUCCESS,
-  ADD_FOOD_ERROR
+  ADD_FOOD_ERROR,
+  FETCH_FOOD_NAMES_START,
+  FETCH_FOOD_NAMES_SUCCESS,
+  FETCH_FOOD_NAMES_ERROR
 } from "../actions/types";
+
 
 export const fetchAll = (successCallback, errorCallback) => dispatch => {
   dispatch({ type: FETCH_ALL_FOOD_START });
@@ -53,3 +57,25 @@ export const addFood = (
       errorCallback;
     });
 };
+
+export const fetchAllFoodNames = (successCallback, errorCallback) => dispatch => {
+  dispatch({ type: FETCH_FOOD_NAMES_START });
+  firebase
+    .firestore()
+    .collection("Food_name")
+    .get()
+    .then(querySnapshot => {
+      let items = [];
+      querySnapshot.forEach(item => {
+        items.push({ id: item.id, ...item.data() });
+      });
+      dispatch({ type: FETCH_FOOD_NAMES_SUCCESS, payload: { names: items } });
+      successCallback();
+    })
+    .catch(error => {
+      console.log("fetchAll error: ", error);
+      dispatch({ type: FETCH_FOOD_NAMES_ERROR, payload: { error } });
+      errorCallback();
+    });
+};
+

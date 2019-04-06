@@ -16,13 +16,14 @@ import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
 import { ScrollView, ListView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
-import { fetchAll } from "../redux/actions/foodActions";
+import { fetchAll, fetchAllFoodNames } from "../redux/actions/foodActions";
 import FoodInfo from "./FoodInfo";
 import { FOOD_SCREEN, FOOD_INFO_SCREEN } from "../consts";
 
+
 const Food = connect(
   food => food,
-  { fetchAll }
+  { fetchAll, fetchAllFoodNames },
 )(
   class extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ const Food = connect(
         () => {
           this.setState({ listViewData: this.props.food.items });
         },
-        () => {}
+        () => { }
       );
     }
 
@@ -82,73 +83,73 @@ const Food = connect(
       return food.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
-          >
-            <Header>
-              <Body>
-                <Title>Food</Title>
-              </Body>
-            </Header>
+          <Container style={{ paddingTop: Constants.statusBarHeight }}>
+            <ScrollView
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
+            >
+              <Header>
+                <Body>
+                  <Title>Food</Title>
+                </Body>
+              </Header>
 
-            <Content>
-              <List
-                dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                disableLeftSwipe
-                renderRow={data => (
-                  <ListItem
-                    style={{
-                      paddingLeft: 20,
-                      borderBottomColor: "#bbb",
-                      backgroundColor: "#fff"
-                    }}
-                  >
-                    <Icon
+              <Content>
+                <List
+                  dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+                  disableLeftSwipe
+                  renderRow={data => (
+                    <ListItem
                       style={{
-                        color: this.ChooseColor(new Date(data.expire_data))
-                      }}
-                      name="circle"
-                      type="FontAwesome"
-                      size={4}
-                    />
-                    <Text
-                      style={{
-                        color: "#17252a",
-                        fontSize: 15,
-                        paddingLeft: 10
+                        paddingLeft: 20,
+                        borderBottomColor: "#bbb",
+                        backgroundColor: "#fff"
                       }}
                     >
-                      {data.name}
-                    </Text>
-                  </ListItem>
-                )}
-                renderRightHiddenRow={(data, secId, rowId, rowMap) => (
-                  <Button
-                    full
-                    danger
-                    onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Icon active name="trash" />
-                  </Button>
-                )}
-                leftOpenValue={75}
-                rightOpenValue={-75}
-              />
-            </Content>
-          </ScrollView>
-        </Container>
-      );
+                      <Icon
+                        style={{
+                          color: this.ChooseColor(new Date(data.expire_data))
+                        }}
+                        name="circle"
+                        type="FontAwesome"
+                        size={4}
+                      />
+                      <Text
+                        style={{
+                          color: "#17252a",
+                          fontSize: 15,
+                          paddingLeft: 10
+                        }}
+                      >
+                        {data.name}
+                      </Text>
+                    </ListItem>
+                  )}
+                  renderRightHiddenRow={(data, secId, rowId, rowMap) => (
+                    <Button
+                      full
+                      danger
+                      onPress={_ => this.deleteRow(secId, rowId, rowMap)}
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Icon active name="trash" />
+                    </Button>
+                  )}
+                  leftOpenValue={75}
+                  rightOpenValue={-75}
+                />
+              </Content>
+            </ScrollView>
+          </Container>
+        );
     }
   }
 );
