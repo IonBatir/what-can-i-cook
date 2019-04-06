@@ -90,7 +90,8 @@ export default class extends Component {
               ? {
                   margin: 10,
                   marginTop: 20,
-                  backgroundColor: "gray"
+                  backgroundColor: "gray",
+                  borderRadius: 0
                 }
               : {
                   backgroundColor:"#3aafa9",
