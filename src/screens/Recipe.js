@@ -138,14 +138,18 @@ export default connect(
                       <Button
                         onPress={() => {
                           navigation.navigate(RECIPE_INFO_SCREEN, {
+<<<<<<< HEAD
                             data: item
+=======
+                            item
+>>>>>>> info-ui
                           });
                         }}
                         transparent
                         textStyle={{ color: "#87838B" }}
                       >
                         <Icon type="Feather" name="more-vertical" />
-                        <Text>Check menu</Text>
+                        <Text>See more</Text>
                       </Button>
                     </Left>
                   </CardItem>

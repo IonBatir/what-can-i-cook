@@ -18,6 +18,7 @@ import {
   deleteFood,
   fetchAll
 } from "../redux/actions/foodActions";
+import { ScrollView } from "react-native";
 
 export default connect(
   food => food,
@@ -69,6 +70,7 @@ export default connect(
         <Spinner />
       ) : (
         <Container>
+          <ScrollView>
           <Form>
             <Item stackedLabel>
               <Label>Name</Label>
@@ -187,8 +189,8 @@ export default connect(
               </Text>
             </Button>
           )}
-        </Container>
-      );
-    }
+        </ScrollView>
+      </Container>
+    );
   }
 );
