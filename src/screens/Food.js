@@ -35,7 +35,8 @@ const Food = connect(
       this.state = {
         refreshing: false,
         basic: true,
-        listViewData: []
+        listViewData: [],
+        active: false
       };
     }
 
@@ -59,7 +60,7 @@ const Food = connect(
         () => {
           this.setState({ listViewData: this.props.food.items });
         },
-        () => {}
+        () => { }
       );
     }
 
@@ -84,97 +85,107 @@ const Food = connect(
       return food.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
-          >
-            <Header
-              style={{
-                backgroundColor: "#77aeab",
-                marginBottom: 10
-              }}
+          <Container style={{ paddingTop: Constants.statusBarHeight }}>
+            <ScrollView
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
             >
-              <Body>
-                <Title>Available products in your fridge.</Title>
-              </Body>
-            </Header>
+              <Header
+                style={{
+                  backgroundColor: "#77aeab",
+                  marginBottom: 10
+                }}
+              >
+                <Body>
+                  <Title>Available products in your fridge.</Title>
+                </Body>
+              </Header>
 
-            <Content>
-              <List
-                dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                disableRightSwipe
-                renderRow={data => (
-                  <ListItem
-                    onPress={() => {
-                      navigation.navigate(FOOD_INFO_SCREEN, {
-                        title: "Edit Food",
-                        data
-                      });
-                    }}
-                    style={{
-                      paddingLeft: 20,
-                      borderBottomColor: "#bbb",
-                      backgroundColor: "#fff"
-                    }}
-                  >
-                    <Icon
-                      style={{
-                        color: this.ChooseColor(new Date(data.expire_date)),
-                        fontSize: 15
+              <Content>
+                <List
+                  dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+                  disableRightSwipe
+                  renderRow={data => (
+                    <ListItem
+                      onPress={() => {
+                        navigation.navigate(FOOD_INFO_SCREEN, {
+                          title: "Edit Food",
+                          data
+                        });
                       }}
-                      name="circle"
-                      type="FontAwesome"
-                      size={4}
-                    />
-                    <Text
                       style={{
-                        color: "#17252a",
-                        fontSize: 15,
-                        paddingLeft: 10,
-                        fontStyle: "italic"
+                        paddingLeft: 20,
+                        borderBottomColor: "#bbb",
+                        backgroundColor: "#fff"
                       }}
                     >
-                      {data.name}
-                    </Text>
-                  </ListItem>
-                )}
-                renderRightHiddenRow={(data, secId, rowId, rowMap) => (
-                  <Button
-                    full
-                    danger
-                    onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Icon active name="trash" />
-                  </Button>
-                )}
-                disableRightSwipe
-                rightOpenValue={-75}
-              />
-            </Content>
-          </ScrollView>
-          <Fab
-            active={this.state.active}
-            containerStyle={{}}
-            style={{ backgroundColor: "#62c3be" }}
-            position="bottomRight"
-            onPress={() =>
-              navigation.navigate(FOOD_INFO_SCREEN, { title: "Add Food" })
-            }
-          >
-            <Icon name="add-to-list" type="Entypo" />
-          </Fab>
-        </Container>
-      );
+                      <Icon
+                        style={{
+                          color: this.ChooseColor(new Date(data.expire_date)),
+                          fontSize: 15
+                        }}
+                        name="circle"
+                        type="FontAwesome"
+                        size={4}
+                      />
+                      <Text
+                        style={{
+                          color: "#17252a",
+                          fontSize: 15,
+                          paddingLeft: 10,
+                          fontStyle: "italic"
+                        }}
+                      >
+                        {data.name}
+                      </Text>
+                    </ListItem>
+                  )}
+                  renderRightHiddenRow={(data, secId, rowId, rowMap) => (
+                    <Button
+                      full
+                      danger
+                      onPress={_ => this.deleteRow(secId, rowId, rowMap)}
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Icon active name="trash" />
+                    </Button>
+                  )}
+                  disableRightSwipe
+                  rightOpenValue={-75}
+                />
+              </Content>
+            </ScrollView>
+            <View style={{ flex: 1 }}>
+              <Fab
+                direction="up"
+                active={this.state.active}
+                containerStyle={{}}
+                style={{ backgroundColor: "#62c3be" }}
+                position="bottomRight"
+                onPress={() => this.setState({ active: !this.state.active })}
+              >
+                <Icon name="add-to-list" type="Entypo" />
+                <Button
+                  style={{ backgroundColor: "#3aafa9" }}
+                  onPress={() =>
+                    navigation.navigate(FOOD_INFO_SCREEN, { title: "Add Food" })
+                  }><Icon name="pencil" type="Entypo" /></Button>
+                <Button
+                  style={{ backgroundColor: "#3aafa9" }}
+                  onPress={() => { }}
+                ><Icon name="barcode-scan" type="MaterialCommunityIcons" /></Button>
+              </Fab>
+            </View>
+          </Container>
+        );
     }
   }
 );
@@ -191,6 +202,12 @@ export default createStackNavigator(
       screen: FoodInfo,
       navigationOptions: {
         title: "Food Information"
+      }
+    },
+    [SCAN_FOOD_BARCODE]: {
+      screen: SCAN_FOOD_BARCODE,
+      navigationOptions: {
+        title: "Scan Food Barcode"
       }
     }
   },
