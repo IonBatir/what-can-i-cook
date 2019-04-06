@@ -15,7 +15,6 @@ export const fetchAll = (successCallback, errorCallback) => dispatch => {
   firebase
     .firestore()
     .collection("Recipes")
-    .where("uid", "==", uid)
     .get()
     .then(querySnapshot => {
       let items = [];
