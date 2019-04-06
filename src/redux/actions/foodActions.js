@@ -11,9 +11,11 @@ import {
 
 export const fetchAll = (successCallback, errorCallback) => dispatch => {
   dispatch({ type: FETCH_ALL_FOOD_START });
+  const uid = firebase.auth().currentUser.uid;
   firebase
     .firestore()
     .collection("Food")
+    .where("uid", "==", uid)
     .get()
     .then(querySnapshot => {
       let items = [];
@@ -36,10 +38,11 @@ export const addFood = (
   errorCallback
 ) => dispatch => {
   dispatch({ type: ADD_FOOD_START });
+  const uid = firebase.auth().currentUser.uid;
   firebase
     .firestore()
     .collection("Food")
-    .add({ name, bar_code, expire_date, quantity, unit })
+    .add({ name, bar_code, expire_date, quantity, unit, uid })
     .then(() => {
       dispatch({ type: ADD_FOOD_SUCCESS });
       successCallback();
