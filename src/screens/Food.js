@@ -14,7 +14,7 @@ import {
 } from "native-base";
 import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
-import { ScrollView, ListView } from "react-native";
+import { ScrollView, ListView, RefreshControl } from "react-native";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/foodActions";
 import FoodInfo from "./FoodInfo";
@@ -31,10 +31,26 @@ const Food = connect(
         rowHasChanged: (r1, r2) => r1 !== r2
       });
       this.state = {
+        refreshing: false,
         basic: true,
         listViewData: []
       };
     }
+
+    onRefresh = () => {
+      this.setState({ refreshing: true });
+      this.props.fetchAll(
+        () => {
+          this.setState({
+            listViewData: this.props.food.items,
+            refreshing: false
+          });
+        },
+        () => {
+          this.setState({ refreshing: false });
+        }
+      );
+    };
 
     componentDidMount() {
       this.props.fetchAll(
@@ -63,11 +79,18 @@ const Food = connect(
     }
     render() {
       const { food } = this.props;
-      return food.fetchAll.loading ? (
+      return food.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
         <Container style={{ paddingTop: Constants.statusBarHeight }}>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          >
             <Header>
               <Body>
                 <Title>Food</Title>
