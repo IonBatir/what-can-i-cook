@@ -11,6 +11,7 @@ import {
   Left
 } from "native-base";
 import { underline } from "ansi-colors";
+import { ScrollView, RefreshControl } from "react-native";
 
 export default class extends Component {
   constructor(props) {
@@ -42,89 +43,96 @@ export default class extends Component {
       name.length < 1 || quantity.length < 1 || uniti.length < 1;
     return (
       <Container>
-        <Form>
-          <Item stackedLabel>
-            <Label>Name</Label>
-            <Input
-              onChangeText={text => this.setState({ name: text })}
-              defaultValue={name}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Label>Expire Date</Label>
-            <DatePicker
-              defaultDate={expire_date}
-              minimumDate={new Date()}
-              maximumDate={new Date(2020, 12, 31)}
-              locale={"en"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"default"}
-              onDateChange={date => this.setState({ expire_date: date })}
-              disabled={false}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Label>Quantity</Label>
-            <Input
-              onChangeText={text => this.setState({ quantity: text })}
-              defaultValue={quantity}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Label>Unity</Label>
-            <Input
-              onChangeText={text => this.setState({ uniti: text })}
-              defaultValue={uniti}
-            />
-          </Item>
-        </Form>
+        <ScrollView>
+          <Form>
+            <Item stackedLabel>
+              <Label>Name</Label>
+              <Input
+                onChangeText={text => this.setState({ name: text })}
+                defaultValue={name}
+              />
+            </Item>
+            <Item stackedLabel>
+              <Label>Expire Date</Label>
+              <DatePicker
+                defaultDate={expire_date}
+                minimumDate={new Date()}
+                maximumDate={new Date(2020, 12, 31)}
+                locale={"en"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"default"}
+                onDateChange={date => this.setState({ expire_date: date })}
+                disabled={false}
+              />
+            </Item>
+            <Item stackedLabel>
+              <Label>Quantity</Label>
+              <Input
+                onChangeText={text => this.setState({ quantity: text })}
+                defaultValue={quantity}
+              />
+            </Item>
+            <Item stackedLabel>
+              <Label>Unity</Label>
+              <Input
+                onChangeText={text => this.setState({ uniti: text })}
+                defaultValue={uniti}
+              />
+            </Item>
+          </Form>
 
-        <Button
-          block
-          disabled={buttonDisabled}
-          success
-          style={
-            buttonDisabled
-              ? {
-                  margin: 10,
-                  marginTop: 20,
-                  backgroundColor: "gray"
-                }
-              : {
-                  backgroundColor:"#3aafa9",
-                  margin: 10,
-                  marginTop: 20,
-                  borderRadius: 0
-                }
-          }
-        >
-          <Text
-            style={{
-              fontWeight:"bold"
-            }}
-          >Save</Text>
-        </Button>
-        {this.editMode && (
           <Button
             block
-            danger
-            onPress={() => console.log("pressed")}
-            style={{
-              backgroundColor: 'white',
-              margin: 10,
-              marginTop: 20,
-            }}
+            disabled={buttonDisabled}
+            success
+            style={
+              buttonDisabled
+                ? {
+                    margin: 10,
+                    marginTop: 20,
+                    backgroundColor: "gray"
+                  }
+                : {
+                    backgroundColor: "#3aafa9",
+                    margin: 10,
+                    marginTop: 20,
+                    borderRadius: 0
+                  }
+            }
           >
             <Text
               style={{
-                color:'grey',
-                textDecorationLine: "underline"
+                fontWeight: "bold"
               }}
-            >Remove item</Text>
+            >
+              Save
+            </Text>
           </Button>
-        )}
+          {this.editMode && (
+            <Button
+              block
+              danger
+              onPress={() => console.log("pressed")}
+              style={{
+                backgroundColor: "white",
+                margin: 10,
+                marginTop: 20,
+                elevation: 0
+              }}
+            >
+              <Text
+                style={{
+                  color: "grey",
+                  textDecorationLine: "underline"
+                }}
+              >
+                Remove item
+              </Text>
+            </Button>
+          )}
+        </ScrollView>
       </Container>
     );
   }
