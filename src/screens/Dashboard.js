@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
+import { connect } from "react-redux";
 import {
   Container,
   Header,
@@ -17,101 +18,130 @@ import {
   List
 } from "native-base";
 import { Constants } from "expo";
-import { ScrollView } from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 import RecipeInfo from "./RecipeInfo";
+import { Spinner } from "../components";
 import { DASHBOARD_SCREEN, RECIPE_INFO_SCREEN } from "../consts";
-import { fetchAllFoodNames } from "../redux/actions/foodActions"
+import { fetchAllFoodNames } from "../redux/actions/foodActions";
+import { filtreRecite } from "../redux/actions/recipeActions";
 
-const items = [
-  {
-    Name: "French Fries",
-    Description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-  },
-  {
-    Name: "Mamaliga",
-    Description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-  },
-  {
-    Name: "Placinte",
-    Description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-  },
-  {
-    Name: "Puli prajite",
-    Description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-  }
-];
+const Dashboard = connect(
+  recipe => recipe,
+  { filtreRecite, fetchAllFoodNames }
+)(
+  class extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        refreshing: false
+      };
+    }
 
-const Dashboard = () => (
-  <Container style={{ paddingTop: Constants.statusBarHeight }}>
-    <ScrollView>
-      <Header 
-        style={{
-          backgroundColor: "#77aeab"
-        }}
-      >
-        <Body>
-          <Title>Let's cook something!</Title>
-        </Body>
-      </Header>
+    componentDidMount() {
+      const { filtreRecite, fetchAllFoodNames } = this.props;
+      filtreRecite(() => {}, () => {});
+      fetchAllFoodNames(() => {}, () => {});
+    }
 
-      <Content padder>
-        <Card>
-          <CardItem header>
-            <Text>What can You cook right now!</Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>
-                We just checked your list of food and want to show what can you
-                cook right now
-              </Text>
-            </Body>
-          </CardItem>
-          <CardItem footer>
-            <Text>Enjoy your meal :)</Text>
-          </CardItem>
-        </Card>
-      </Content>
+    onRefresh = () => {
+      const { filtreRecite } = this.props;
+      this.setState({ refreshing: true });
+      filtreRecite(
+        () => {
+          this.setState({ refreshing: false });
+        },
+        () => {
+          this.setState({ refreshing: false });
+        }
+      );
+    };
 
-      <List
-        style={{ padding: 5 }}
-        dataArray={items}
-        renderRow={item => (
-          <Card style={{ flex: 0 }}>
-            <CardItem>
-              <Left>
-                <Thumbnail source={require("../../assets/icon.png")} />
-                <Body>
-                  <Text>What Can I Cook?</Text>
-                  <Text note>April 6, 2019</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <H1>{item.Name}</H1>
-            </CardItem>
-            <CardItem>
+    render() {
+      const { recipe, navigation } = this.props;
+      const { refreshing } = this.state;
+      return recipe.filtreRecite.loading && !refreshing ? (
+        <Spinner />
+      ) : (
+        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          >
+            <Header
+              style={{
+                backgroundColor: "#77aeab"
+              }}
+            >
               <Body>
-                <Text>{item.Description}</Text>
+                <Title>Let's cook something!</Title>
               </Body>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Button transparent textStyle={{ color: "#87838B" }}>
-                  <Icon type="Feather" name="more-vertical" />
-                  <Text>Check menu</Text>
-                </Button>
-              </Left>
-            </CardItem>
-          </Card>
-        )}
-      />
-    </ScrollView>
-  </Container>
+            </Header>
+
+            <Content padder>
+              <Card>
+                <CardItem header>
+                  <Text>What can You cook right now!</Text>
+                </CardItem>
+                <CardItem>
+                  <Body>
+                    <Text>
+                      We just checked your list of food and want to show what
+                      can you cook right now
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem footer>
+                  <Text>Enjoy your meal :)</Text>
+                </CardItem>
+              </Card>
+            </Content>
+
+            <List
+              style={{ padding: 5 }}
+              dataArray={recipe.items}
+              renderRow={item => (
+                <Card style={{ flex: 0 }}>
+                  <CardItem>
+                    <Left>
+                      <Thumbnail source={require("../../assets/icon.png")} />
+                      <Body>
+                        <Text>What Can I Cook?</Text>
+                        <Text note>April 6, 2019</Text>
+                      </Body>
+                    </Left>
+                  </CardItem>
+                  <CardItem>
+                    <H1>{item.Name}</H1>
+                  </CardItem>
+                  <CardItem>
+                    <Body>
+                      <Text>{item.Description}</Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem>
+                    <Left>
+                      <Button
+                        onPress={() => navigation.navigate(RECIPE_INFO_SCREEN)}
+                        transparent
+                        textStyle={{ color: "#87838B" }}
+                      >
+                        <Icon type="Feather" name="more-vertical" />
+                        <Text>Check menu</Text>
+                      </Button>
+                    </Left>
+                  </CardItem>
+                </Card>
+              )}
+            />
+          </ScrollView>
+        </Container>
+      );
+    }
+  }
 );
 
 export default createStackNavigator(
