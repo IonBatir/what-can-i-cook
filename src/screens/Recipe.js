@@ -137,9 +137,17 @@ const Recipe = connect(
                   </CardItem>
                   <CardItem>
                     <Left>
-                      <Button transparent textStyle={{ color: "#87838B" }}>
+                      <Button
+                        onPress={() => {
+                          navigation.navigate(RECIPE_INFO_SCREEN, {
+                            item
+                          });
+                        }}
+                        transparent
+                        textStyle={{ color: "#87838B" }}
+                      >
                         <Icon type="Feather" name="more-vertical" />
-                        <Text>Check menu</Text>
+                        <Text>See more</Text>
                       </Button>
                     </Left>
                   </CardItem>
