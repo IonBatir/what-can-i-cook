@@ -9,7 +9,9 @@ import {
   Body,
   Text,
   List,
-  ListItem
+  ListItem,
+  View,
+  Fab
 } from "native-base";
 import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
@@ -19,38 +21,38 @@ import { FOOD_SCREEN, FOOD_INFO_SCREEN } from "../consts";
 
 const datas = [
   {
-    Name: "Potato",
-    expire_data: "06/06/2019",
+    name: "Potato",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
-    Name: "Orange",
-    expire_data: "06/06/2019",
+    name: "Orange",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
-    Name: "Banana",
-    expire_data: "06/06/2019",
+    name: "Banana",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
-    Name: "Mango",
-    expire_data: "06/06/2019",
+    name: "Mango",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
-    Name: "Avocado",
-    expire_data: "06/06/2019",
+    name: "Avocado",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
-    Name: "Lemon",
-    expire_data: "06/06/2019",
+    name: "Lemon",
+    expire_date: "06/06/2019",
     quantity: "3",
     uniti: "kg"
   }
@@ -62,7 +64,8 @@ class Food extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       basic: true,
-      listViewData: datas
+      listViewData: datas,
+      active: false
     };
   }
   deleteRow(secId, rowId, rowMap) {
@@ -72,36 +75,26 @@ class Food extends Component {
     this.setState({ listViewData: newData });
   }
   render() {
+    const { navigation } = this.props;
     return (
       <Container style={{ paddingTop: Constants.statusBarHeight }}>
         <ScrollView>
-          <Header>
-            <Body>
-              <Title>Food</Title>
-            </Body>
-          </Header>
-
           <Content>
             <List
               dataSource={this.ds.cloneWithRows(this.state.listViewData)}
               renderRow={data => (
-                <ListItem style={{ paddingLeft: 20 }}>
-                  <Text>{data.Name}</Text>
-                </ListItem>
-              )}
-              renderLeftHiddenRow={data => (
-                <Button
-                  full
-                  onPress={() => alert(data.Name)}
-                  style={{
-                    backgroundColor: "#CCC",
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center"
+                <ListItem
+                  button
+                  onPress={() => {
+                    /* 1. Navigate to the Details route with params */
+                    navigation.navigate(FOOD_INFO_SCREEN, {
+                      data
+                    });
                   }}
+                  style={{ paddingLeft: 20 }}
                 >
-                  <Icon active name="information-circle" />
-                </Button>
+                  <Text>{data.name}</Text>
+                </ListItem>
               )}
               renderRightHiddenRow={(data, secId, rowId, rowMap) => (
                 <Button
@@ -117,11 +110,20 @@ class Food extends Component {
                   <Icon active name="trash" />
                 </Button>
               )}
-              leftOpenValue={75}
               rightOpenValue={-75}
+              disableRightSwipe
             />
           </Content>
         </ScrollView>
+        <Fab
+          active={this.state.active}
+          containerStyle={{}}
+          style={{ backgroundColor: "#5067FF" }}
+          position="bottomRight"
+          onPress={() => navigation.navigate(FOOD_INFO_SCREEN)}
+        >
+          <Icon name="add-to-list" type="Entypo" />
+        </Fab>
       </Container>
     );
   }
@@ -138,7 +140,7 @@ export default createStackNavigator(
     [FOOD_INFO_SCREEN]: {
       screen: FoodInfo,
       navigationOptions: {
-        title: "Food"
+        title: "Food Information"
       }
     }
   },
