@@ -160,7 +160,7 @@ export default createStackNavigator(
     [RECIPE_INFO_SCREEN]: {
       screen: RecipeInfo,
       navigationOptions: {
-        title: "Recipe"
+        title: "Recipe Information"
       }
     }
   },

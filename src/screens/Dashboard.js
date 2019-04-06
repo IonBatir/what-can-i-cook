@@ -47,12 +47,6 @@ const items = [
 const Dashboard = () => (
   <Container style={{ paddingTop: Constants.statusBarHeight }}>
     <ScrollView>
-      <Header>
-        <Body>
-          <Title>Dashboard</Title>
-        </Body>
-      </Header>
-
       <Content padder>
         <Card>
           <CardItem header>
@@ -120,7 +114,7 @@ export default createStackNavigator(
     [RECIPE_INFO_SCREEN]: {
       screen: RecipeInfo,
       navigationOptions: {
-        title: "Recipe"
+        title: "Recipe Information"
       }
     }
   },

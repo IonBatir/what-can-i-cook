@@ -10,7 +10,9 @@ import {
   Body,
   Text,
   List,
-  ListItem
+  ListItem,
+  View,
+  Fab
 } from "native-base";
 import { createStackNavigator } from "react-navigation";
 import { Constants } from "expo";
@@ -103,6 +105,11 @@ const Food = connect(
                 disableRightSwipe
                 renderRow={data => (
                   <ListItem
+                    onPress={() => {
+                      navigation.navigate(FOOD_INFO_SCREEN, {
+                        data
+                      });
+                    }}
                     style={{
                       paddingLeft: 20,
                       borderBottomColor: "#bbb",
@@ -144,11 +151,20 @@ const Food = connect(
                     <Icon active name="trash" />
                   </Button>
                 )}
-                leftOpenValue={75}
+                disableRightSwipe
                 rightOpenValue={-75}
               />
             </Content>
           </ScrollView>
+          <Fab
+            active={this.state.active}
+            containerStyle={{}}
+            style={{ backgroundColor: "#5067FF" }}
+            position="bottomRight"
+            onPress={() => navigation.navigate(FOOD_INFO_SCREEN)}
+          >
+            <Icon name="add-to-list" type="Entypo" />
+          </Fab>
         </Container>
       );
     }
@@ -166,7 +182,7 @@ export default createStackNavigator(
     [FOOD_INFO_SCREEN]: {
       screen: FoodInfo,
       navigationOptions: {
-        title: "Food"
+        title: "Food Information"
       }
     }
   },
