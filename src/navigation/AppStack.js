@@ -1,18 +1,31 @@
-import { createStackNavigator } from "react-navigation";
-import { Dashboard } from "../screens";
-import { DASHBOARD_SCREEN } from "../consts";
+import { createBottomTabNavigator } from "react-navigation";
+import { Dashboard, Food, Recipe } from "../screens";
+import { DASHBOARD_SCREEN, FOOD_SCREEN, RECIPE_SCREEN } from "../consts";
 
-export default createStackNavigator(
+export default createBottomTabNavigator(
   {
     [DASHBOARD_SCREEN]: {
       screen: Dashboard,
       navigationOptions: {
-        title: "Dashboard"
+        tabBarLabel: "Dashboard"
+      }
+    },
+    [FOOD_SCREEN]: {
+      screen: Food,
+      navigationOptions: {
+        tabBarLabel: "Food"
+      }
+    },
+    [RECIPE_SCREEN]: {
+      screen: Recipe,
+      navigationOptions: {
+        tabBarLabel: "Recipe"
       }
     }
   },
   {
+    navigationOptions: {},
     initialRouteName: DASHBOARD_SCREEN,
-    headerMode: "screen"
+    animationEnabled: true
   }
 );
