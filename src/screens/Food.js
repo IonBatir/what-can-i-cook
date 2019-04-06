@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import { Constants } from "expo";
 import { ScrollView, StyleSheet, ListView, Alert } from "react-native";
+import { bold } from "ansi-colors";
 
 const datas = [
   {
@@ -30,19 +31,19 @@ const datas = [
   },
   {
     Name: "Banana",
-    expire_data: "06/06/2019",
+    expire_data: "04/09/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
     Name: "Mango",
-    expire_data: "06/06/2019",
+    expire_data: "04/04/2019",
     quantity: "3",
     uniti: "kg"
   },
   {
     Name: "Avocado",
-    expire_data: "06/06/2019",
+    expire_data: "04/08/2019",
     quantity: "3",
     uniti: "kg"
   },
@@ -75,6 +76,22 @@ export default class extends Component {
     newData.splice(rowId, 1);
     this.setState({ listViewData: newData });
   }
+
+  ChooseColor(expira){
+    const colors = ["#35aa49", "#c7c22e", "#c43434"]
+    const today = new Date();
+    console.log("Today:", today);
+    console.log("Expire date: ", expira)
+    const difference = expira - today;
+    const days = difference / (3600 * 1000 * 24);
+    console.log("\nDays remaining: ", days);
+    if (days < 0)
+      return colors[2];
+    if (days < 5)
+      return colors[1];
+    else
+      return colors[0];
+  }
   render() {
     return (
       <Container style={{ paddingTop: Constants.statusBarHeight }}>
@@ -84,13 +101,22 @@ export default class extends Component {
               <Title>Food</Title>
             </Body>
           </Header>
+          
 
           <Content>
             <List
               dataSource={this.ds.cloneWithRows(this.state.listViewData)}
               renderRow={data => (
-                <ListItem style={{ paddingLeft: 20 }}>
-                  <Text>{data.Name}</Text>
+                <ListItem style={{ 
+                  paddingLeft: 20,
+                  borderBottomColor: "#bbb",
+                  backgroundColor: "#fff"}}>
+                   <Icon style={{color: this.ChooseColor(new Date(data.expire_data))}}
+                     name="circle"
+                     type="FontAwesome"
+                     size={4}
+                   />
+                  <Text style={{color: "#17252a",fontSize: 15,fontWeight: "normal", paddingLeft: 10}}>{data.Name}</Text>
                 </ListItem>
               )}
               renderLeftHiddenRow={data => (
