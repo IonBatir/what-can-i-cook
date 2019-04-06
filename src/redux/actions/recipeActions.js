@@ -150,7 +150,10 @@ export const filtreRecite = (successCallback, errorCallback) => dispatch => {
         if (arrayContainsArray(myFoods, item.data().foods))
           items.push({ id: item.id, ...item.data() });
       });
-      dispatch({ type: FILTRE_ALL_RECIPE_SUCCESS, payload: { items } });
+      dispatch({
+        type: FILTRE_ALL_RECIPE_SUCCESS,
+        payload: { filterItems: items }
+      });
       successCallback();
     })
     .catch(error => {

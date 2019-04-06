@@ -37,7 +37,8 @@ const initialValues = {
     loading: false,
     error: null
   },
-  items: []
+  items: [],
+  filterItems: []
 };
 
 export default (state = initialValues, action) => {

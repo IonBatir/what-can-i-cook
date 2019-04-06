@@ -100,7 +100,7 @@ export default connect(
 
             <List
               style={{ padding: 5 }}
-              dataArray={recipe.items}
+              dataArray={recipe.filterItems}
               renderRow={item => (
                 <Card style={{ flex: 0 }}>
                   <CardItem>
