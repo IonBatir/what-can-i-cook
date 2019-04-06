@@ -93,9 +93,14 @@ const Food = connect(
               />
             }
           >
-            <Header>
+            <Header
+              style={{
+                backgroundColor: "#77aeab",
+                marginBottom: 10
+              }}
+            >
               <Body>
-                <Title>Food</Title>
+                <Title>Available products in your fridge.</Title>
               </Body>
             </Header>
 

@@ -11,7 +11,10 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Dashboard",
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="home" size={25} color="#900" />
+          <Icon
+           style={{color: "#2b9e98"}}
+           name="home" size={25} color="#900"
+          />
         )
       }
     },
@@ -21,6 +24,7 @@ export default createBottomTabNavigator(
         tabBarLabel: "Food",
         tabBarIcon: ({ tintColor }) => (
           <Icon
+            style={{color: "#2b9e98"}}
             name="food-apple"
             type="MaterialCommunityIcons"
             size={25}
@@ -35,6 +39,7 @@ export default createBottomTabNavigator(
         tabBarLabel: "Recipe",
         tabBarIcon: ({ tintColor }) => (
           <Icon
+            style={{color: "#2b9e98"}}
             name="food-variant"
             type="MaterialCommunityIcons"
             size={25}
