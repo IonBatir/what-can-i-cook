@@ -64,6 +64,7 @@ export default connect(
                 error={error.password}
                 label={"Password"}
                 value={password}
+                secureTextEntry
                 onChangeText={text =>
                   this.setState({
                     password: text
@@ -74,6 +75,7 @@ export default connect(
 
             <Button
               block
+              disabled={error.email || error.password}
               onPress={() => {
                 this.setState({ firstTime: false });
                 registerUser(

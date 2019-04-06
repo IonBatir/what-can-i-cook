@@ -64,6 +64,7 @@ export default connect(
 
             <Button
               block
+              disabled={error.email}
               onPress={() => {
                 this.setState({ firstTime: false });
                 resetPassword(
