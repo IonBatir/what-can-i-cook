@@ -33,8 +33,11 @@ export default class extends Component {
         };
   }
 
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: `${navigation.state.params.title}`
+  });
+
   render() {
-    /* 2. Get the param, provide a fallback value if not available */
     const { navigation } = this.props;
     const { name, quantity, uniti, expire_date } = this.state;
 
@@ -93,7 +96,7 @@ export default class extends Component {
                   backgroundColor: "gray"
                 }
               : {
-                  backgroundColor:"#3aafa9",
+                  backgroundColor: "#3aafa9",
                   margin: 10,
                   marginTop: 20,
                   borderRadius: 0
@@ -102,9 +105,11 @@ export default class extends Component {
         >
           <Text
             style={{
-              fontWeight:"bold"
+              fontWeight: "bold"
             }}
-          >Save</Text>
+          >
+            Save
+          </Text>
         </Button>
         {this.editMode && (
           <Button
@@ -112,17 +117,19 @@ export default class extends Component {
             danger
             onPress={() => console.log("pressed")}
             style={{
-              backgroundColor: 'white',
+              backgroundColor: "white",
               margin: 10,
-              marginTop: 20,
+              marginTop: 20
             }}
           >
             <Text
               style={{
-                color:'grey',
+                color: "grey",
                 textDecorationLine: "underline"
               }}
-            >Remove item</Text>
+            >
+              Remove item
+            </Text>
           </Button>
         )}
       </Container>
