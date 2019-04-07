@@ -78,9 +78,9 @@ export default class extends Component {
                     <Left>
                       <Icon
                         active
-                        name="circle"
-                        type="Feather"
-                        style={{ color: "#DD5044", fontSize: 15 }}
+                        name="minus"
+                        type="AntDesign"
+                        style={{ color: "#62c3be", fontSize: 15 }}
                       />
                       <Text>{item}</Text>
                     </Left>

@@ -60,7 +60,7 @@ export default connect(
       return recipe.fetchAll.loading && !this.state.refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView
             refreshControl={
               <RefreshControl
@@ -79,7 +79,11 @@ export default connect(
               </Body>
             </Header>
 
-            <Header searchBar rounded>
+            <Header searchBar rounded
+              style={{
+                backgroundColor:"#ededed"
+              }}
+            >
               <Item>
                 <Icon name="ios-search" />
                 <Input placeholder="Search" />

@@ -60,7 +60,7 @@ export default connect(
       return recipe.filtreRecite.loading && !refreshing ? (
         <Spinner />
       ) : (
-        <Container style={{ paddingTop: Constants.statusBarHeight }}>
+        <Container>
           <ScrollView
             refreshControl={
               <RefreshControl
