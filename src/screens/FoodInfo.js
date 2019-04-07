@@ -29,12 +29,20 @@ export default connect(
       super(props);
       const { params } = this.props.navigation.state;
       this.editMode = params && params.data;
+      let expireDate;
+      if (this.editMode) {
+        const stringDate = params.data.expire_date;
+        expireDate = new Date();
+        expireDate.setDate(stringDate.split("/")[0]);
+        expireDate.setMonth(stringDate.split("/")[1] - 1);
+        expireDate.setFullYear(stringDate.split("/")[2]);
+      }
 
       this.state = this.editMode
         ? {
             name: params.data.name,
             bar_code: params.data.bar_code,
-            expire_date: new Date(params.data.expire_date),
+            expire_date: expireDate,
             quantity: params.data.quantity,
             uniti: params.data.uniti,
             id: params.data.id
@@ -88,7 +96,6 @@ export default connect(
                   defaultDate={expire_date}
                   minimumDate={new Date()}
                   maximumDate={new Date(2020, 12, 31)}
-                  locale={"en"}
                   timeZoneOffsetInMinutes={undefined}
                   modalTransparent={false}
                   animationType={"fade"}
