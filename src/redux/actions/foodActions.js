@@ -97,6 +97,7 @@ export const editFood = (
         type: EDIT_FOOD_SUCCESS,
         payload: {
           item: {
+            id,
             name,
             bar_code,
             expire_date: dateToString(expire_date),
