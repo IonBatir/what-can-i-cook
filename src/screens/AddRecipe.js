@@ -122,7 +122,12 @@ export default connect(
               disabled={saveButtonDisabled}
               onPress={() => {
                 addRecipe(
-                  { name, description, algorithm, food },
+                  {
+                    name,
+                    description,
+                    algorithm,
+                    foods: foods.map(food => food.text)
+                  },
                   () => {
                     navigation.navigate(RECIPE_SCREEN);
                   },
