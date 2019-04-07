@@ -62,7 +62,17 @@ export const addFood = (
     .then(doc => {
       dispatch({
         type: ADD_FOOD_SUCCESS,
-        payload: { item: { id: doc.id, ...doc.data() } }
+        payload: {
+          item: {
+            id: doc.id,
+            name,
+            bar_code,
+            expire_date: dateToString(expire_date),
+            quantity,
+            uniti,
+            uid
+          }
+        }
       });
       successCallback();
     })
