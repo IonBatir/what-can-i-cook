@@ -80,7 +80,7 @@ export default connect(
 
             <Header searchBar rounded
               style={{
-                backgroundColor:"#ededed"
+                backgroundColor:"#fafafa"
               }}
             >
               <Item>
