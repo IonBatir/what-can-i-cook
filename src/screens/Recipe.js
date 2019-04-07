@@ -16,11 +16,12 @@ import {
   H1,
   List,
   Item,
-  Input
+  Input,
+  Fab
 } from "native-base";
 import { Spinner } from "../components";
 import { fetchAll } from "../redux/actions/recipeActions";
-import { RECIPE_INFO_SCREEN } from "../consts";
+import { RECIPE_INFO_SCREEN, ADD_RECIPE_SCREEN } from "../consts";
 import { ScrollView, RefreshControl } from "react-native";
 
 export default connect(
@@ -78,9 +79,11 @@ export default connect(
               </Body>
             </Header>
 
-            <Header searchBar rounded
+            <Header
+              searchBar
+              rounded
               style={{
-                backgroundColor:"#fafafa"
+                backgroundColor: "#fafafa"
               }}
             >
               <Item>
@@ -156,6 +159,14 @@ export default connect(
               )}
             />
           </ScrollView>
+          <Fab
+            containerStyle={{}}
+            style={{ backgroundColor: "#62c3be" }}
+            position="bottomRight"
+            onPress={() => navigation.navigate(ADD_RECIPE_SCREEN)}
+          >
+            <Icon name="pencil" type="Entypo" />
+          </Fab>
         </Container>
       );
     }
