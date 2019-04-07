@@ -42,7 +42,7 @@ export const fetchAll = (successCallback, errorCallback) => dispatch => {
 };
 
 export const addFood = (
-  { name, bar_code, expire_date, quantity, unit },
+  { name, bar_code, expire_date, quantity, uniti },
   successCallback,
   errorCallback
 ) => dispatch => {
@@ -56,7 +56,7 @@ export const addFood = (
       bar_code,
       expire_date: dateToString(expire_date),
       quantity,
-      unit,
+      uniti,
       uid
     })
     .then(() => {
@@ -71,7 +71,7 @@ export const addFood = (
 };
 
 export const editFood = (
-  { name, bar_code, expire_date, quantity, uniti },
+  { name, bar_code, expire_date, quantity, uniti, id },
   successCallback,
   errorCallback
 ) => dispatch => {
@@ -80,15 +80,14 @@ export const editFood = (
   firebase
     .firestore()
     .collection("Food")
+    .doc(id)
     .set({
+      name,
       bar_code,
       expire_date: dateToString(expire_date),
       quantity,
-      uniti
-    })
-    .where({
-      uid,
-      name
+      uniti,
+      uid
     })
     .then(response => {
       console.log("editFood response: ", response);
@@ -103,7 +102,7 @@ export const editFood = (
 };
 
 export const deleteFood = (
-  { name },
+  { id },
   successCallback,
   errorCallback
 ) => dispatch => {
@@ -112,11 +111,8 @@ export const deleteFood = (
   firebase
     .firestore()
     .collection("Food")
+    .doc(id)
     .delete()
-    .where({
-      uid,
-      name
-    })
     .then(response => {
       console.log("deleteFood response: ", response);
       dispatch({ type: DELETE_FOOD_SUCCESS });

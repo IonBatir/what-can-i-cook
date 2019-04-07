@@ -108,7 +108,7 @@ export const deleteRecipe = (
       name,
       uid
     })
-    .then(reponse => {
+    .then(response => {
       console.log("deleteRecipe response: ", response);
       dispatch({ type: DELETE_RECIPE_SUCCESS });
       successCallback();

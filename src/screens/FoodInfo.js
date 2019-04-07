@@ -33,12 +33,15 @@ export default connect(
       this.state = this.editMode
         ? {
             name: params.data.name,
+            bar_code: params.data.bar_code,
             expire_date: new Date(params.data.expire_date),
             quantity: params.data.quantity,
-            uniti: params.data.uniti
+            uniti: params.data.uniti,
+            id: params.data.id
           }
         : {
             name: "",
+            bar_code: "",
             expire_date: new Date(),
             quantity: "",
             uniti: ""
@@ -170,7 +173,18 @@ export default connect(
                 block
                 danger
                 onPress={() =>
-                  deleteFood({ name: this.state.name }, () => {}, () => {})
+                  deleteFood(
+                    { id: this.state.id },
+                    () => {
+                      fetchAll(
+                        () => {
+                          navigation.navigate(FOOD_SCREEN);
+                        },
+                        () => {}
+                      );
+                    },
+                    () => {}
+                  )
                 }
                 style={{
                   backgroundColor: "white",
