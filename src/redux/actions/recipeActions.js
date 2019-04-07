@@ -41,7 +41,7 @@ export const fetchAll = (successCallback, errorCallback) => dispatch => {
 };
 
 export const addRecipe = (
-  { name, description, algorithm, food },
+  { name, description, algorithm, foods },
   successCallback,
   errorCallback
 ) => dispatch => {
@@ -50,12 +50,12 @@ export const addRecipe = (
   firebase
     .firestore()
     .collection("Recipes")
-    .add({ name, description, algorithm, food, uid })
+    .add({ name, description, algorithm, foods, uid })
     .then(doc => {
       dispatch({
         type: ADD_RECIPE_SUCCESS,
         payload: {
-          item: { id: doc.id, name, description, algorithm, food, uid }
+          item: { id: doc.id, name, description, algorithm, foods, uid }
         }
       });
       successCallback();
