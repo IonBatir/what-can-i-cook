@@ -133,8 +133,7 @@ export default connect(
                         flex: 1
                       }}
                     >
-                      {data.quantity}
-                      {data.uniti}
+                      {data.quantity} {data.uniti}
                     </Text>
                   </ListItem>
                 ))}
