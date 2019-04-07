@@ -122,24 +122,14 @@ export default connect(
                   ? editFood(
                       { ...this.state },
                       () => {
-                        fetchAll(
-                          () => {
-                            navigation.navigate(FOOD_SCREEN);
-                          },
-                          () => {}
-                        );
+                        navigation.navigate(FOOD_SCREEN);
                       },
                       () => {}
                     )
                   : addFood(
                       { ...this.state },
                       () => {
-                        fetchAll(
-                          () => {
-                            navigation.navigate(FOOD_SCREEN);
-                          },
-                          () => {}
-                        );
+                        navigation.navigate(FOOD_SCREEN);
                       },
                       () => {}
                     );
@@ -176,12 +166,7 @@ export default connect(
                   deleteFood(
                     { id: this.state.id },
                     () => {
-                      fetchAll(
-                        () => {
-                          navigation.navigate(FOOD_SCREEN);
-                        },
-                        () => {}
-                      );
+                      navigation.navigate(FOOD_SCREEN);
                     },
                     () => {}
                   )

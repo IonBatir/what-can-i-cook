@@ -59,8 +59,11 @@ export const addFood = (
       uniti,
       uid
     })
-    .then(() => {
-      dispatch({ type: ADD_FOOD_SUCCESS });
+    .then(doc => {
+      dispatch({
+        type: ADD_FOOD_SUCCESS,
+        payload: { item: { id: doc.id, ...doc.data() } }
+      });
       successCallback();
     })
     .catch(error => {
@@ -89,9 +92,20 @@ export const editFood = (
       uniti,
       uid
     })
-    .then(response => {
-      console.log("editFood response: ", response);
-      dispatch({ type: EDIT_FOOD_SUCCESS });
+    .then(() => {
+      dispatch({
+        type: EDIT_FOOD_SUCCESS,
+        payload: {
+          item: {
+            name,
+            bar_code,
+            expire_date: dateToString(expire_date),
+            quantity,
+            uniti,
+            uid
+          }
+        }
+      });
       successCallback();
     })
     .catch(error => {
@@ -115,7 +129,7 @@ export const deleteFood = (
     .delete()
     .then(response => {
       console.log("deleteFood response: ", response);
-      dispatch({ type: DELETE_FOOD_SUCCESS });
+      dispatch({ type: DELETE_FOOD_SUCCESS, payload: { id } });
       successCallback();
     })
     .catch(error => {

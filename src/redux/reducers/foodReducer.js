@@ -63,7 +63,11 @@ export default (state = initialValues, action) => {
     case ADD_FOOD_START:
       return { ...state, add: { ...state.add, loading: true } };
     case ADD_FOOD_SUCCESS:
-      return { ...state, add: { ...state.add, loading: false } };
+      return {
+        ...state,
+        items: [...state.items, action.payload.item],
+        add: { ...state.add, loading: false }
+      };
     case ADD_FOOD_ERROR:
       return {
         ...state,
@@ -72,7 +76,14 @@ export default (state = initialValues, action) => {
     case EDIT_FOOD_START:
       return { ...state, edit: { ...state.edit, loading: true } };
     case EDIT_FOOD_SUCCESS:
-      return { ...state, edit: { ...state.edit, loading: false } };
+      return {
+        ...state,
+        items: [
+          ...state.items.filter(item => item.id != action.payload.item.id),
+          action.payload.item
+        ],
+        edit: { ...state.edit, loading: false }
+      };
     case EDIT_FOOD_ERROR:
       return {
         ...state,
@@ -81,7 +92,11 @@ export default (state = initialValues, action) => {
     case DELETE_FOOD_START:
       return { ...state, delete: { ...state.delete, loading: true } };
     case DELETE_FOOD_SUCCESS:
-      return { ...state, delete: { ...state.delete, loading: false } };
+      return {
+        ...state,
+        items: state.items.filter(item => item.id != action.payload.id),
+        delete: { ...state.delete, loading: false }
+      };
     case DELETE_FOOD_ERROR:
       return {
         ...state,

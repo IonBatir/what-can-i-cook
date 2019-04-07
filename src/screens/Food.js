@@ -26,13 +26,9 @@ export default connect(
   class extends Component {
     constructor(props) {
       super(props);
-      this.ds = new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2
-      });
       this.state = {
         refreshing: false,
         basic: true,
-        listViewData: [],
         active: false
       };
     }
@@ -42,7 +38,6 @@ export default connect(
       this.props.fetchAll(
         () => {
           this.setState({
-            listViewData: this.props.food.items,
             refreshing: false
           });
         },
@@ -53,19 +48,7 @@ export default connect(
     };
 
     componentDidMount() {
-      this.props.fetchAll(
-        () => {
-          this.setState({ listViewData: this.props.food.items });
-        },
-        () => {}
-      );
-    }
-
-    deleteRow(secId, rowId, rowMap) {
-      rowMap[`${secId}${rowId}`].props.closeRow();
-      const newData = [...this.state.listViewData];
-      newData.splice(rowId, 1);
-      this.setState({ listViewData: newData });
+      this.props.fetchAll(() => {}, () => {});
     }
 
     ChooseColor(expira) {
@@ -103,11 +86,10 @@ export default connect(
             </Header>
 
             <Content>
-              <List
-                dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                disableRightSwipe
-                renderRow={data => (
+              <List>
+                {food.items.map(data => (
                   <ListItem
+                    key={data.id}
                     onPress={() => {
                       navigation.navigate(FOOD_INFO_SCREEN, {
                         title: "Edit Food",
@@ -139,25 +121,24 @@ export default connect(
                     >
                       {data.name}
                     </Text>
+                    <Text
+                      style={{
+                        paddingLeft: 20,
+                        marginTop: 10,
+                        fontSize: 12,
+                        textAlign: "right",
+                        alignSelf: "stretch",
+                        color: "grey",
+                        fontStyle: "italic",
+                        flex: 1
+                      }}
+                    >
+                      {data.quantity}
+                      {data.uniti}
+                    </Text>
                   </ListItem>
-                )}
-                renderRightHiddenRow={(data, secId, rowId, rowMap) => (
-                  <Button
-                    full
-                    danger
-                    onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Icon active name="trash" />
-                  </Button>
-                )}
-                disableRightSwipe
-                rightOpenValue={-75}
-              />
+                ))}
+              </List>
             </Content>
           </ScrollView>
           <View style={{ flex: 1 }}>
