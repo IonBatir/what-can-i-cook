@@ -51,8 +51,13 @@ export const addRecipe = (
     .firestore()
     .collection("Recipes")
     .add({ name, description, algorithm, food, uid })
-    .then(() => {
-      dispatch({ type: ADD_RECIPE_SUCCESS });
+    .then(doc => {
+      dispatch({
+        type: ADD_RECIPE_SUCCESS,
+        payload: {
+          item: { id: doc.id, name, description, algorithm, food, uid }
+        }
+      });
       successCallback();
     })
     .catch(error => {
@@ -63,27 +68,26 @@ export const addRecipe = (
 };
 
 export const editRecipe = (
-  { name, description, algorithm, foods },
+  { name, description, algorithm, foods, id },
   successCallback,
   errorCallback
 ) => dispatch => {
   dispatch({ type: EDIT_RECIPE_START });
-  const uid = firebase.auth().currentUser.uid;
   firebase
     .firestore()
     .collection("Recipes")
+    .doc(id)
     .set({
       description,
       algorithm,
       foods
     })
-    .where({
-      name,
-      uid
-    })
     .then(response => {
       console.log("editRecipe response: ", response);
-      dispatch({ type: EDIT_RECIPE_SUCCESS });
+      dispatch({
+        type: EDIT_RECIPE_SUCCESS,
+        payload: { item: { id, name, description, algorithm, foods } }
+      });
       successCallback();
     })
     .catch(error => {
@@ -94,7 +98,7 @@ export const editRecipe = (
 };
 
 export const deleteRecipe = (
-  { name },
+  { id },
   successCallback,
   errorCallback
 ) => dispatch => {
@@ -103,14 +107,11 @@ export const deleteRecipe = (
   firebase
     .firestore()
     .collection("Recipes")
+    .doc(id)
     .delete()
-    .where({
-      name,
-      uid
-    })
     .then(response => {
       console.log("deleteRecipe response: ", response);
-      dispatch({ type: DELETE_RECIPE_SUCCESS });
+      dispatch({ type: DELETE_RECIPE_SUCCESS, payload: { id } });
       successCallback();
     })
     .catch(error => {

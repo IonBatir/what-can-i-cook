@@ -63,7 +63,11 @@ export default (state = initialValues, action) => {
     case ADD_RECIPE_START:
       return { ...state, add: { ...state.add, loading: true } };
     case ADD_RECIPE_SUCCESS:
-      return { ...state, add: { ...state.add, loading: false } };
+      return {
+        ...state,
+        items: [...state.items, action.payload.item],
+        add: { ...state.add, loading: false }
+      };
     case ADD_RECIPE_ERROR:
       return {
         ...state,
