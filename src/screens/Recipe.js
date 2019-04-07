@@ -78,7 +78,11 @@ export default connect(
               </Body>
             </Header>
 
-            <Header searchBar rounded>
+            <Header searchBar rounded
+              style={{
+                backgroundColor:"#fafafa"
+              }}
+            >
               <Item>
                 <Icon name="ios-search" />
                 <Input placeholder="Search" />
